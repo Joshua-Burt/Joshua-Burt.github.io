@@ -1,21 +1,20 @@
 <!DOCTYPE html>
 <html>
 <body>
+    <h1>My First JavaScript, Hello!</h1>
 
-<h1>My First JavaScript</h1>
+    <p id="demo">JavaScript can change the style of an HTML element.</p>
 
-<p id="demo">JavaScript can change the style of an HTML element.</p>
+    <script>
+        function myFunction() {
+            var text = document.getElementById("demo");
+            text.style.fontSize = "25px";
+            text.style.color = "red";
+            text.style.backgroundColor = "yellow";
+        }
+    </script>
 
-<script>
-function myFunction() {
-	var text = document.getElementById("demo");
-	text.style.fontSize = "25px"; 
-	text.style.color = "red";
-	text.style.backgroundColor = "yellow";        
-}
-</script>
-
-<button type="button" onclick="myFunction()">Click Me!</button>
+    <button type="button" onclick="myFunction()">Click Me!</button>
 
 </body>
 </html>
