@@ -1,0 +1,74 @@
+html { font-family: "Roboto", sans-serif }
+body {
+    background-color: #DCDCDC;
+    text-align: center;
+}
+.rectangle {
+    height: 200px;
+    width: 400px;
+    transform: rotate(-5deg);
+    filter: drop-shadow(-1px 6px 3px rgba(50, 50, 0, 0.5));
+    text-align: center;
+    position:absolute;
+    top:50%;
+    left:50%;
+    margin-top:-200px;
+    margin-left:-200px;
+    background: #ffffff url("imgs/cardTexture.png");
+}
+
+.button-group {
+    height: 200px;
+    width: 600px;
+    position:absolute;
+    top:65%;
+    left:50%;
+    margin-left:-300px;
+}
+
+.button {
+    background-color: #62c38e; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+
+.button:hover {
+    box-shadow: 0 10px 10px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+}
+
+
+.hello {
+    margin: 0;
+    padding: 0;
+    color: #FF0000;
+    font-family: lemonMilk,Roboto,sans-serif;
+}
+
+.center {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 45%;
+    -ms-transform: translate(-40%, -50%);
+    transform: translate(-40%, -50%);
+}
+
+h1, h3 {
+    margin: 0;
+    padding: 0;
+}
+
+@font-face {
+    font-family: handWritten;
+    src: url(fonts/gabrwffr.ttf);
+}
+
+@font-face {
+    font-family: lemonMilk;
+    src: url(fonts/lemonmilk.otf);
+}
