@@ -58,6 +58,13 @@ body {
     transform: translate(-40%, -50%);
 }
 
+.media-group {
+    position:absolute;
+    top: 90%;
+    left: 50%;
+    margin-left: -50px;
+}
+
 h1, h3 {
     margin: 0;
     padding: 0;
