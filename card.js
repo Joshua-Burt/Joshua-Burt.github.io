@@ -7,6 +7,7 @@ function fall() {
 }
 
 function cardFall() {
+    document.getElementById("undercard").style.display = "inline";
     let card = document.getElementById("card");
     card.style.zIndex = String(10);
     let ySpeed = 2;
@@ -16,14 +17,18 @@ function cardFall() {
         if(isNaN(yPos)) {
             yPos = 500;
         }
-        console.log(yPos);
-        if(yPos > screen.height) {
+
+        if(!$(card).visible(true)) {
             card.style.display = "none";
             clearInterval(timer);
         } else {
             ySpeed += 0.5;
             let newPos = yPos + ySpeed;
             card.style.top = newPos + "px";
+            let rotation = parseInt(card.style.rotate.slice(0,-3));
+
+            $(card).css({'transform' : 'rotate('+ rotation + 0.1 +'deg)'});
         }
     }, 20);
+
 }
