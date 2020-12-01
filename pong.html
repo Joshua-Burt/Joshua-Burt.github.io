@@ -65,9 +65,9 @@
         if(y + dy > paddleY) {
             if(x > paddleX && x < paddleX + paddleWidth) {
                 if(x < paddleX + paddleWidth / 2) {
-                    dx = -(Math.abs(x - paddleX));
+                    dx = -Math.abs((paddleX + paddleWidth/2 - x - 10));
                 } else {
-                    dx = (Math.abs(x - paddleX));
+                    dx = Math.abs((paddleX + paddleWidth/2 - x - 10));
                 }
                 dy = -dy;
             }

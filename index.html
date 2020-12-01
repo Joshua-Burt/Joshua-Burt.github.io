@@ -7,15 +7,25 @@
     <link rel="stylesheet" href="stylesheet.css">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="card.js"></script>
 </head>
 
 <body>
-    <div class="rectangle">
+    <div class="undercard" id="undercard">
+        <h1>Hello There</h1>
+    </div>
+
+    <div class="rectangle" id="card">
         <div class="center">
             <h1 class="hello">HELLO</h1>
             <br><h3>my name is</h3>
             <br><h1 style="font-family: handWritten,sans-serif">Joshua Burt</h1>
         </div>
+
+
+        <button type="button" style="margin-left: -75%; margin-top: -5%; border: none; background: transparent; outline: none" onclick="fall()">
+            <img src="imgs/pin.png" alt="Pushpin" width="100" height="100" id="pin" style="opacity: 100;">
+        </button>
     </div>
 
     <div class="button-group">
@@ -25,7 +35,9 @@
     </div>
 
     <div class="media-group">
-        <a href="https://github.com/Joshua-Burt" target="_blank">
+        Visit my
+
+        <br><a href="https://github.com/Joshua-Burt" target="_blank">
             <img src="imgs/GitHub_Logo.png" alt="Github logo" width="100" height="41">
         </a>
     </div>
