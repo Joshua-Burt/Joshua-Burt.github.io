@@ -15,10 +15,10 @@
     let canvas = document.getElementById("myCanvas");
     let ctx = canvas.getContext("2d");
     let ballRadius = 10;
-    let x = canvas.width/2;
-    let y = canvas.height-30;
+    let ballX = canvas.width/2;
+    let ballY = canvas.height-30;
     let dx = 2;
-    let dy = -1;
+    let dy = -2;
     let paddleHeight = 10;
     let paddleWidth = 75;
     let paddleX = (canvas.width-paddleWidth) / 2;
@@ -41,7 +41,7 @@
 
     function drawBall() {
         ctx.beginPath();
-        ctx.arc(x, y, ballRadius, 0, Math.PI*2);
+        ctx.arc(ballX, ballY, ballRadius, 0, Math.PI*2);
         ctx.fillStyle = "#0095DD";
         ctx.fill();
         ctx.closePath();
@@ -59,20 +59,22 @@
         drawBall();
         drawPaddle();
 
-        if(x + dx > canvas.width - ballRadius || x + dx < ballRadius) { dx = -dx; }
-        if(y + dy < ballRadius) { dy = -dy; }
+        if(ballX + dx > canvas.width - ballRadius || ballX + dx < ballRadius) { dx = -dx; }
+        if(ballY + dy < ballRadius) { dy = -dy; }
 
-        if(y + dy > paddleY) {
-            if(x > paddleX && x < paddleX + paddleWidth) {
-                if(x < paddleX + paddleWidth / 2) {
-                    dx = -Math.abs((paddleX + paddleWidth/2 - x - 10));
+        let paddleMid = paddleX + (paddleWidth / 2);
+
+        if(ballY + dy > paddleY) {
+            if(ballX > paddleX && ballX < paddleX + paddleWidth) {
+                if(ballX < paddleMid) {
+                    dx = -dist(paddleMid, ballX) / 4;
                 } else {
-                    dx = Math.abs((paddleX + paddleWidth/2 - x - 10));
+                    dx = dist(paddleMid, ballX) / 4;
                 }
                 dy = -dy;
             }
         }
-        if(y + dy > canvas.height-ballRadius) {
+        if(ballY + dy > canvas.height-ballRadius) {
             alert("GAME OVER");
             document.location.reload();
             clearInterval(interval); // Needed for Chrome to end game
@@ -81,11 +83,15 @@
         if(rightPressed && paddleX < canvas.width - paddleWidth) { paddleX += 7; }
         if(leftPressed && paddleX > 0) { paddleX -= 7; }
 
-        x += dx;
-        y += dy;
+        ballX += dx;
+        ballY += dy;
     }
 
     let interval = setInterval(draw, 10);
+
+    function dist(a,b) {
+        return Math.abs(a - b);
+    }
 </script>
 </body>
 </html>

@@ -17,6 +17,15 @@ body {
     background: #ffffff url("imgs/cardTexture.png");
 }
 
+html {
+    overflow: scroll;
+    overflow-x: hidden;
+}
+::-webkit-scrollbar {
+    width: 0;
+    background: transparent;
+}
+
 .undercard {
     font-family: "Roboto", sans-serif;
     position:absolute;
