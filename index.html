@@ -13,35 +13,38 @@
 </head>
 
 <body>
-    <div class="undercard" id="undercard" style="display: none">
-        <img src="imgs/hole.png" alt="Torn hole in paper" height="70%" width="70%">
-    </div>
-
-    <div class="rectangle" id="card">
-        <div class="center">
-            <h1 class="hello">HELLO</h1>
-            <br><h3>my name is</h3>
-            <br><h1 style="font-family: handWritten,sans-serif">Joshua Burt</h1>
+    <div id="page">
+        <div class="undercard" id="undercard" style="display: none">
+            <div style="position: absolute; margin-left: 50px; z-index: -1;"></div>
+            <img src="imgs/hole.png" alt="Torn hole in paper" height="70%" width="70%" style="z-index: 1">
         </div>
 
+        <div class="rectangle" id="card">
+            <div class="center">
+                <h1 class="hello">HELLO</h1>
+                <br><h3>my name is</h3>
+                <br><h1 style="font-family: handWritten,sans-serif">Joshua Burt</h1>
+            </div>
 
-        <button type="button" style="margin-left: -75%; margin-top: -5%; border: none; background: transparent; outline: none" onclick="fall()">
-            <img src="imgs/pin.png" alt="Pushpin" width="100" height="100" id="pin" style="opacity: 100;">
-        </button>
-    </div>
 
-    <div class="button-group">
-        <a href="pong.html"><button type="button" class="button" id="webToys">Web Toys</button></a>
-        <button type="button" class="button" id="projects">Projects</button>
-        <button type="button" class="button" id="contact">Contact</button>
-    </div>
+            <button type="button" style="margin-left: -75%; margin-top: -5%; border: none; background: transparent; outline: none" onclick="fall()">
+                <img src="imgs/pin.png" alt="Pushpin" width="100" height="100" id="pin" style="opacity: 100;">
+            </button>
+        </div>
 
-    <div class="media-group">
-        Visit my
+        <div class="navigation-group">
+            <a href="pong.html"><button type="button" class="button" id="webToys">Web Toys</button></a>
+            <button type="button" class="button" id="projects">Projects</button>
+            <button type="button" class="button" id="contact">Contact</button>
+        </div>
 
-        <br><a href="https://github.com/Joshua-Burt" target="_blank">
-            <img src="imgs/GitHub_Logo.png" alt="Github logo" width="100" height="41">
-        </a>
-    </div>
+        <div class="media-group">
+            Visit my
+
+            <br><a href="https://github.com/Joshua-Burt" target="_blank" rel="noreferrer">
+                <img src="imgs/GitHub_Logo.png" alt="Github logo" width="100" height="41">
+            </a>
+        </div>
+</div>
 </body>
 </html>

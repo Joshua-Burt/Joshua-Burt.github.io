@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Joshua Burt | Hexadecimal Counter</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="stylesheet.css">
+</head>
+<body>
+    <script>
+        let r = 0;
+        let g = 0;
+        let b = 0;
+        let cycle = false;
+        let loop = null;
+
+        document.body.style.backgroundColor = 'rgb(' + [r,g,b].join(",") + ')';
+
+        // $('html').click(function(e) {
+        //     colourCycle();
+        // });
+
+        function colourCycle() {
+            if(r < 255 && g === 0 && b === 0) {
+                r++;
+            } else if(r === 255 && g < 255 && b === 0) {
+                g++;
+            } else if(r > 0 && g === 255 && b === 0) {
+                r--;
+            } else if(r === 0 && g === 255 && b < 255) {
+                b++;
+            } else if(r === 0 && g > 0 && b === 255) {
+                g--;
+            } else if(r < 255 && g === 0 && b === 255) {
+                r++;
+            } else if(r === 255 && g < 255 && b === 255) {
+                g++
+            } else if(r > 0 && g > 0 && b > 0) {
+                r--;
+                g--;
+                b--;
+            }
+
+            setBackground(r,g,b);
+        }
+
+        function setBackground(r, g, b) {
+            document.body.style.backgroundColor = 'rgb(' + [r,g,b].join(",") + ')';
+            let rgb = document.getElementById('rgb');
+
+            rgb.innerText = "R " + zeroPad(r, 3) + "\nG " + zeroPad(g, 3) + "\nB " + zeroPad(b, 3);
+        }
+
+
+        $(document).ready(function(e) {
+            $("#colour").click(function() {
+                console.log("Yellow")
+                if(cycle) {
+                    clearInterval(loop)
+                    cycle = false;
+                } else {
+                    cycle = true;
+                    loop = setInterval(function() {
+                        colourCycle();
+                    }, 10);
+                }
+            });
+        });
+
+
+        function zeroPad(num, places) {
+            let zero = places - num.toString().length + 1;
+            return Array(+(zero > 0 && zero)).join("0") + num;
+        }
+
+    </script>
+
+    <div id="page" class="center">
+        <div id="display" style="color: white; font-family: Impact,sans-serif" class="unselectable outline">
+            <h1>
+                RGB Colour:
+                <div id="rgb">
+                    R 000
+                    <br>G 000
+                    <br>B 000
+                </div>
+            </h1>
+        </div>
+
+        <div id="buttons">
+            <button id="colour">Colour Loop</button>
+        </div>
+    </div>
+</body>
+</html>
