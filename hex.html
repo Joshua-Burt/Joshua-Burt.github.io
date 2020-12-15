@@ -13,14 +13,49 @@
         let b = 0;
         let cycle = false;
         let loop = null;
+        let slider = null
 
         document.body.style.backgroundColor = 'rgb(' + [r,g,b].join(",") + ')';
 
-        // $('html').click(function(e) {
-        //     colourCycle();
-        // });
+        $(document).ready(function() {
+            slider = document.getElementById("range");
 
-        function colourCycle() {
+            // Start/Stop colour loop
+            $("#colour").click(function() {
+                if(cycle) {
+                    clearInterval(loop);
+                    cycle = false;
+                } else {
+                    cycle = true;
+                    loop = setInterval(colourCycle, slider.value);
+                }
+            });
+
+            // Change speed of the colour changing
+            $("#range").on("change", function() {
+                let v = parseInt($("#range").val());
+                clearTimeout(loop);
+                loop = setInterval(colourCycle, v);
+            });
+
+            // Reset back to 0, 0, 0
+            $("#reset").click(function() {
+                if(cycle) {
+                    clearInterval(loop);
+                    cycle = false;
+                }
+
+                r = 0;
+                g = 0;
+                b = 0;
+
+                setBackground(r,g,b);
+            });
+        });
+
+
+
+        let colourCycle = function() {
             if(r < 255 && g === 0 && b === 0) {
                 r++;
             } else if(r === 255 && g < 255 && b === 0) {
@@ -45,28 +80,17 @@
         }
 
         function setBackground(r, g, b) {
-            document.body.style.backgroundColor = 'rgb(' + [r,g,b].join(",") + ')';
+            document.body.style.backgroundColor = 'rgb(' + [r, g, b].join(",") + ')';
             let rgb = document.getElementById('rgb');
+            let hex = document.getElementById('hex');
 
             rgb.innerText = "R " + zeroPad(r, 3) + "\nG " + zeroPad(g, 3) + "\nB " + zeroPad(b, 3);
+            hex.innerText = rgbToHex(r, g, b);
         }
 
-
-        $(document).ready(function(e) {
-            $("#colour").click(function() {
-                console.log("Yellow")
-                if(cycle) {
-                    clearInterval(loop)
-                    cycle = false;
-                } else {
-                    cycle = true;
-                    loop = setInterval(function() {
-                        colourCycle();
-                    }, 10);
-                }
-            });
-        });
-
+        function rgbToHex(r, g, b) {
+            return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+        }
 
         function zeroPad(num, places) {
             let zero = places - num.toString().length + 1;
@@ -79,16 +103,28 @@
         <div id="display" style="color: white; font-family: Impact,sans-serif" class="unselectable outline">
             <h1>
                 RGB Colour:
-                <div id="rgb">
+                <div id="rgb" style="text-align: left; margin-left: 40px">
                     R 000
                     <br>G 000
                     <br>B 000
                 </div>
             </h1>
+            <p>
+                <h1>
+                    HEX Colour:
+                    <div id="hex">
+                        #000000
+                    </div>
+                </h1>
+            </p>
         </div>
 
         <div id="buttons">
             <button id="colour">Colour Loop</button>
+            <button id="reset">Reset</button>
+            <p>
+                <label for="range"></label><input type="range" min="15" max="200" value="30" class="slider" id="range">
+            </p>
         </div>
     </div>
 </body>
