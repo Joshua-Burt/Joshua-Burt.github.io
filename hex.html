@@ -13,7 +13,7 @@
         let b = 0;
         let cycle = false;
         let loop = null;
-        let slider = null
+        let slider = null;
 
         document.body.style.backgroundColor = 'rgb(' + [r,g,b].join(",") + ')';
 
@@ -49,7 +49,7 @@
                 g = 0;
                 b = 0;
 
-                setBackground(r,g,b);
+                updatePage(r,g,b);
             });
         });
 
@@ -76,10 +76,10 @@
                 b--;
             }
 
-            setBackground(r,g,b);
+            updatePage(r,g,b);
         }
 
-        function setBackground(r, g, b) {
+        function updatePage(r, g, b) {
             document.body.style.backgroundColor = 'rgb(' + [r, g, b].join(",") + ')';
             let rgb = document.getElementById('rgb');
             let hex = document.getElementById('hex');
@@ -88,41 +88,60 @@
             hex.innerText = rgbToHex(r, g, b);
         }
 
+
+        /**
+         * Takes in RGB colour value and converts it to a HEX value
+         * @param r: Red
+         * @param g: Green
+         * @param b: Blue
+         * @returns String containing '#' and the HEX values of the RGB code
+         */
         function rgbToHex(r, g, b) {
             return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
         }
 
+        /**
+         * Converts a number into a string with a given amount of leading zeros
+         * @param num: The original number
+         * @param places: How many total digits there is, original number included
+         * @returns String of number
+         */
         function zeroPad(num, places) {
             let zero = places - num.toString().length + 1;
             return Array(+(zero > 0 && zero)).join("0") + num;
         }
     </script>
 
-    <div id="page" class="center">
-        <div id="display" style="color: white; font-family: Impact,sans-serif" class="unselectable outline">
-            <h1>
-                RGB Colour:
-                <div id="rgb" style="text-align: left; margin-left: 40px">
-                    R 000
-                    <br>G 000
-                    <br>B 000
-                </div>
-            </h1>
-            <p>
+    <div id="page">
+        <div id="nav">
+            <a href="index.html">Main Page</a>
+        </div>
+        <div id="main" class="center">
+            <div id="display" style="color: white; font-family: Impact,sans-serif" class="unselectable outline">
                 <h1>
-                    HEX Colour:
-                    <div id="hex">
-                        #000000
+                    RGB Colour:
+                    <div id="rgb" style="text-align: left; margin-left: 40px">
+                        R 000
+                        <br>G 000
+                        <br>B 000
                     </div>
                 </h1>
-        </div>
+                <p>
+                    <h1>
+                        HEX Colour:
+                        <div id="hex">
+                            #000000
+                        </div>
+                    </h1>
+            </div>
 
-        <div id="buttons">
-            <button id="colour">Colour Loop</button>
-            <button id="reset">Reset</button>
-            <p>
-                <label for="range"></label><input type="range" min="15" max="300" value="150" class="slider" id="range">
-            </p>
+            <div id="buttons">
+                <button id="colour">Colour Loop</button>
+                <button id="reset">Reset</button>
+                <p>
+                    <label for="range"></label><input type="range" min="15" max="300" value="150" class="slider" id="range">
+                </p>
+            </div>
         </div>
     </div>
 </body>
