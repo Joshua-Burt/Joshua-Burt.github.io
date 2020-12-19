@@ -1,4 +1,8 @@
 html { font-family: "Roboto", sans-serif }
+
+a, :link, :visited {
+    color: #3740ff;
+}
 body {
     background-color: #e9e9e9;
     text-align: center;
@@ -50,9 +54,10 @@ html {
 }
 
 .button {
-    background-color: #55a6cb;
-    border: 2px solid #55a6cb;
+    background-color: #3C8DB2;
+    border: 2px solid #3C8DB2;
     color: white;
+    font-weight: bold;
     padding: 15px 32px;
     text-align: center;
     text-decoration: none;
@@ -61,12 +66,20 @@ html {
     transition-duration: 0.4s;
 }
 
+
 .button:hover {
     background-color: #ffffff;
     border: 2px solid #55a6cb;
     color: black;
 }
 
+.content {
+    padding: 0 18px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+    background-color: #f1f1f1;
+}
 
 .hello {
     margin: 0;

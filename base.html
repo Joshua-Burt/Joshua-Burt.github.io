@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="stylesheet.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="theme-color" content="#e9e9e9"/>
+    <meta charset="UTF-8">
+    <title>Joshua Burt | Number Bases</title>
+</head>
+<body>
+
+<script>
+    let num = 0;
+    let auto = false;
+    let loop = null;
+
+    $(document).ready(function() {
+
+        $("#auto").click(function() {
+            if(auto) {
+                clearInterval(loop);
+                auto = false;
+            } else {
+                auto = true;
+                loop = setInterval(function() {
+                    num++;
+                    updatePage();
+                }, 1);
+            }
+        });
+
+        $("#add").click(function() {
+            if(auto) {
+                clearInterval(loop);
+                auto = false;
+            }
+
+            num++;
+
+            updatePage();
+        });
+
+        $("#sub").click(function() {
+            if(auto) {
+                clearInterval(loop);
+                auto = false;
+            }
+
+            num--;
+
+            updatePage();
+        });
+
+        $("#clear").click(function() {
+            if(auto) {
+                clearInterval(loop);
+                auto = false;
+            }
+
+            num = 0;
+
+            updatePage();
+        });
+    });
+
+    function updatePage() {
+        document.getElementById("decimal").innerText = "Decimal: " + num.toString(10);
+
+        document.getElementById("base2").innerText = "Base 2: " + num.toString(2);
+        document.getElementById("base4").innerText = "Base 4: " + num.toString(4);
+        document.getElementById("base8").innerText = "Base 8: " + num.toString(8);
+        document.getElementById("base10").innerText = "Base 10: " + num.toString(10);
+        document.getElementById("base12").innerText = "Base 12: " + num.toString(12);
+        document.getElementById("base16").innerText = "Base 16*: " + num.toString(16);
+        document.getElementById("base32").innerText = "Base 32: " + num.toString(32);
+    }
+</script>
+<div id="page">
+    <div class="center" style="text-align: left">
+        <h2 id="decimal">Decimal: 0</h2>
+
+        <p>
+            <button type="button" class="button" id="auto">Auto</button>
+            <button type="button" class="button" id="sub">-</button>
+            <button type="button" class="button" id="add">+</button>
+            <button type="button" class="button" id="clear">Clear</button>
+        </p>
+
+        <div style="font-size: 20px">
+        <p id="base2">Base 2: 0</p>
+        <p id="base4">Base 4: 0</p>
+        <p id="base8">Base 8: 0</p>
+        <p id="base10">Base 10: 0</p>
+        <p id="base12">Base 12: 0</p>
+        <p id="base16">Base 16<b>*</b>: 0</p>
+        <p id="base32">Base 32: 0</p>
+        </div>
+    </div>
+    <h3 style="position: fixed; bottom: 10px;">
+        <a href="hex.html">*Base 16: Hexadecimal colours</a>
+    </h3>
+</div>
+</body>
+</html>
