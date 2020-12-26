@@ -37,8 +37,11 @@
             // Change speed of the colour changing
             $("#range").on("change", function() {
                 let v = parseInt($("#range").val());
-                clearTimeout(loop);
-                loop = setInterval(colourCycle, v);
+
+                if(cycle) {
+                    clearTimeout(loop);
+                    loop = setInterval(colourCycle, v);
+                }
             });
 
             // Reset back to 0, 0, 0
