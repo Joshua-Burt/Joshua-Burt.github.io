@@ -16,7 +16,6 @@
     let loop = null;
 
     $(document).ready(function() {
-
         $("#auto").click(function() {
             if(auto) {
                 clearInterval(loop);
@@ -72,12 +71,13 @@
         document.getElementById("base8").innerText = "Base 8: " + num.toString(8);
         document.getElementById("base10").innerText = "Base 10: " + num.toString(10);
         document.getElementById("base12").innerText = "Base 12: " + num.toString(12);
-        document.getElementById("base16").innerText = "Base 16*: " + num.toString(16);
+        document.getElementById("base16").innerText = "Base 16: " + num.toString(16);
         document.getElementById("base32").innerText = "Base 32: " + num.toString(32);
     }
 </script>
 <div id="page">
-    <div class="center" style="text-align: left">
+    <a href="index.html">Main Page</a>
+    <div class="center" style="text-align: center; width: 500px;">
         <h2 id="decimal">Decimal: 0</h2>
 
         <p>
@@ -87,14 +87,24 @@
             <button type="button" class="button" id="clear">Clear</button>
         </p>
 
-        <div style="font-size: 20px">
-        <p id="base2">Base 2: 0</p>
-        <p id="base4">Base 4: 0</p>
-        <p id="base8">Base 8: 0</p>
-        <p id="base10">Base 10: 0</p>
-        <p id="base12">Base 12: 0</p>
-        <p id="base16">Base 16<b>*</b>: 0</p>
-        <p id="base32">Base 32: 0</p>
+        <div style="font-size: 20px;display: flex; font-family: monospace">
+            <div style="text-align: left;">
+                <p id="base2">Base 2: 0</p>
+                <p id="base4">Base 4: 0</p>
+                <p id="base8">Base 8: 0</p>
+                <p id="base10">Base 10: 0</p>
+                <p id="base12">Base 12: 0</p>
+                <p id="base16">Base 16: 0</p>
+                <p id="base32">Base 32: 0</p>
+            </div>
+            <div style="flex-grow: 1; text-align: left; padding-left: 20px;">
+                <p>Binary</p>
+                <p>&nbsp</p>
+                <p>Octal</p>
+                <p>Decimal</p>
+                <p>Duodecimal</p>
+                <p>Hexadecimal<b>*</b></p>
+            </div>
         </div>
     </div>
     <h3 style="position: fixed; bottom: 10px;">
