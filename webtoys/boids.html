@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="../stylesheet.css">
+    <style>
+        html, body {
+            width:  100%;
+            height: 100%;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas" width="500" height="500"></canvas>
+
+    <script>
+        let canvas = document.querySelector("#canvas");
+        let ctx = canvas.getContext("2d");
+        ctx.canvas.width  = window.innerWidth;
+        ctx.canvas.height = window.innerHeight;
+
+        // Defaults
+        const height = 3;
+        const strokeWidth = 3;
+        const strokeColor = 'black';
+        const boids = [];
+        const MAX_SPEED = 5;
+        const MIN_SPEED = 1;
+
+
+        let clicked = false;
+        let sel = $('#canvas');
+
+        sel.mousedown(function (mouseEvent) {
+            addBoid(mouseEvent.pageX, mouseEvent.pageY, (Math.random() * 360), Math.random() * MAX_SPEED + MIN_SPEED, "yellow");
+            clicked = true;
+        });
+
+        sel.mousemove(function(mouseEvent) {
+            if(clicked) {
+                addBoid(mouseEvent.pageX, mouseEvent.pageY, (Math.random() * 360), Math.ceil(Math.random() * MAX_SPEED + MIN_SPEED), "black");
+            }
+        });
+
+        sel.mouseup(function () { clicked = false; });
+
+        let interval = setInterval(draw, 10);
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "#FFFFFF";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            for(let i = 0; i < boids.length; i++) {
+                findNewPosition(boids[i]);
+                drawPolygon(boids[i].x, boids[i].y, 3, height, strokeWidth, strokeColor, boids[i].color, boids[i].dir);
+
+                // if(boids[i].color === "yellow") {
+                // 	for(let o = 0; o < boids.length; o++) {
+				// 		ctx.beginPath();
+                //
+                //         for(let j = 0; j < boids[i].closestBoids.length; j++) {
+                //             if(boids[i].closestDists[j] < 50) {
+                //                 ctx.moveTo(boids[i].x, boids[i].y);
+                //                 ctx.lineTo(boids[i].closestBoids[j].x, boids[i].closestBoids[j].y);
+                //             }
+                //         }
+                //
+				// 		ctx.arc(boids[i].x, boids[i].y, 50, 0, 2 * Math.PI);
+				// 		ctx.stroke();
+                //     }
+                // }
+            }
+        }
+
+        function findNewPosition(boid) {
+            let radianDir = boid.dir * Math.PI/180;
+
+            let dx = boid.x + boid.speed * (Math.cos(radianDir));
+            let dy = boid.y + boid.speed * (Math.sin(radianDir));
+
+            let closestBoids = getClosestBoids(boid);
+            boid.setClosestBoids(closestBoids);
+
+            let avgDir = 0;
+            let avgSpeed = 0;
+            for(let i = 0; i < closestBoids.length; i++) {
+				avgDir += closestBoids[i].dir;
+				avgSpeed += closestBoids[i].speed;
+			}
+            avgSpeed += boid.speed;
+            avgSpeed /= closestBoids.length + 1;
+
+            avgDir += boid.dir;
+            avgDir /= closestBoids.length + 1;
+
+            let valDir;
+
+            if(boid.closestDist < 50 && boid.closestDist > 10) {
+
+				if (Math.abs(boid.dir - avgDir) <= 180) {
+					// Rotate current directly towards target.
+					if (boid.dir < avgDir) {
+						valDir = 1;
+					} else  {
+						valDir = -1;
+					}
+				} else {
+					// Rotate the other direction towards target.
+					if (boid.dir < avgDir) {
+						valDir = -1;
+					} else {
+						valDir = 1;
+					}
+				}
+
+
+                if(boid.speed - avgSpeed > 0 && boid.speed > MIN_SPEED + 1) {
+                    boid.setSpeed(boid.speed - 0.01);
+                } else if(boid.speed - avgSpeed < 0 && boid.speed < MAX_SPEED) {
+                    boid.setSpeed(boid.speed + 0.01);
+                }
+            } else {
+                valDir = Math.random() * 6 - 3;
+            }
+
+            boid.setDir(boid.dir + valDir);
+
+            if(boid.dir < 0) {
+                boid.setDir(360 + boid.dir);
+            } else if(boid.dir > 360) {
+                boid.setDir(boid.dir - 360);
+            }
+
+            if(boid.x > ctx.canvas.width) { dx = 0 }
+            else if(boid.x < 0) { dx = ctx.canvas.width }
+
+            if(boid.y > ctx.canvas.height) { dy = 0 }
+            else if(boid.y < 0) { dy = ctx.canvas.height }
+
+            boid.setX(dx);
+            boid.setY(dy);
+        }
+
+        function getClosestBoids(boid) {
+			let closestBoids = [];
+			let closestDist = [99999, 99999, 99999];
+
+			for(let i = 0; i < boids.length; i++) {
+				if(boids[i] !== boid) {
+
+					let distance = toroidalDistance(boid.x, boid.y, boids[i].x, boids[i].y);
+
+					for(let j = 0; j < 3; j++) {
+						if(distance < closestDist[j]) {
+							closestBoids[j] = boids[i];
+							closestDist[j] = distance;
+							boid.setClosestDist(Math.min(closestDist[0], closestDist[1], closestDist[2]));
+							break;
+						}
+					}
+				}
+			}
+
+			if(closestBoids[0] != null && closestBoids[1] != null) {
+				return closestBoids;
+			} else if(closestBoids[1] == null) {
+                return [closestBoids[0], boid];
+		    } else {
+            	boid.setClosestDist(0);
+            	return [boid, boid];
+            }
+        }
+
+        // https://stackoverflow.com/questions/2123947/calculate-distance-between-two-x-y-coordinates
+		function toroidalDistance (x1,y1,x2,y2) {
+			return Math.sqrt(Math.pow(Math.min(Math.abs(x1 - x2), ctx.canvas.width - Math.abs(x1 - x2)), 2) + Math.pow(Math.min(Math.abs(y1 - y2), ctx.canvas.height - Math.abs(y1 - y2)),2));
+		}
+
+        function addBoid(x,y,dir,speed,color) {
+        	if(boids.length < 250) {
+				boids.push(new Boid(x, y, dir, speed, color, 0));
+            }
+       	}
+
+        function deleteBoid() {
+            boids.pop();
+        }
+
+        // https://stackoverflow.com/questions/38238282/how-to-rotate-a-triangle-without-rotating-the-entire-canvas
+        function drawPolygon(centerX,centerY,sideCount,size,strokeWidth,strokeColor,fillColor,degrees){
+            let radians=(degrees)*Math.PI/180;
+            ctx.translate(centerX,centerY);
+            ctx.rotate(radians);
+            ctx.beginPath();
+            ctx.moveTo (size * Math.cos(0), size * Math.sin(0));
+            for (let i = 1; i <= sideCount;i += 1) {
+                ctx.lineTo (size * Math.cos(i * 2 * Math.PI / sideCount), size * Math.sin(i * 2 * Math.PI / sideCount));
+            }
+            ctx.closePath();
+            ctx.fillStyle=fillColor;
+            ctx.strokeStyle = strokeColor;
+            ctx.lineWidth = strokeWidth;
+            ctx.stroke();
+            ctx.fill();
+            ctx.rotate(-radians);
+            ctx.translate(-centerX,-centerY);
+        }
+
+        class Boid {
+        	closestBoids = [];
+        	closestDists = [];
+
+            constructor(x,y,dir,speed,color,closestDist) {
+                this.x = x;
+                this.y = y;
+                this.dir = dir;
+                this.speed = speed;
+                this.color = color;
+                this.closestDist = closestDist;
+            }
+
+            setX(x) {
+				this.x = x;
+			}
+
+            setY(y) {
+                this.y = y;
+            }
+
+            setDir(dir) {
+                this.dir = dir;
+            }
+
+			setSpeed(value) {
+				this.speed = value;
+			}
+
+			setClosestBoids(closestBoids) {
+            	this.closestBoids = closestBoids;
+            }
+
+            setClosestDists(closestDists) {
+            	this.closestDists = closestDists;
+            }
+
+			setClosestDist(closestDist) {
+				this.closestDist = closestDist;
+			}
+        }
+    </script>
+</body>
+</html>

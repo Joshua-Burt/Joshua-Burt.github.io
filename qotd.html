@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ENG">
+<head>
+    <title>Question of the Day | Javascript</title>
+
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/seedrandom/3.0.5/seedrandom.min.js"></script>
+    <script>
+        let questions;
+        class Question {
+        	constructor(question, answer1, answer2, answer3) {
+			    this.question = question;
+			    this.answer1 = answer1;
+			    this.answer2 = answer2;
+			    this.answer3 = answer3;
+        	}
+        }
+
+        fetch("qotd/questions.txt")
+        .then(response => response.text())
+        .then(data => {
+            questions = parseQuestions(data);
+
+			let randomQuestion = randomNumber();
+			document.getElementById("question").innerHTML = questions[randomQuestion].question;
+            document.getElementById("1").innerHTML = questions[randomQuestion].answer1;
+			document.getElementById("2").innerHTML = questions[randomQuestion].answer2;
+			document.getElementById("3").innerHTML = questions[randomQuestion].answer3;
+        });
+
+
+        function randomNumber() {
+			let timestamp = new Date().getUTCDate();
+
+			let num = new Math.seedrandom(timestamp.toString());
+
+            return Math.floor(num() * questions.length - 1);
+        }
+
+        function parseQuestions(data) {
+			let questions = [];
+            let lines = data.split("\n");
+            for(let i = 0; i < lines.length; i++) {
+                if(lines[i].includes("~")) {
+                    let question = lines[i].substr(1);
+                    let answer1 = lines[i + 1].substr(1);
+                    let answer2 = lines[i + 2].substr(1);
+                    let answer3 = lines[i + 3].substr(1);
+
+                    i += 3;
+
+                    let questionObj = new Question(question, answer1, answer2, answer3);
+                    questions.push(questionObj);
+                }
+            }
+
+            return questions;
+        }
+    </script>
+</head>
+<body>
+    <p id="question">Question</p>
+
+    <button id="1">Choice 1</button>
+    <button id="2">Choice 2</button>
+    <button id="3">Choice 3</button>
+</body>
+</html>

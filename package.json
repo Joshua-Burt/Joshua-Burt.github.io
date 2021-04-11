@@ -1,0 +1,8 @@
+{
+  "name": "Joshua-Burt.github.io",
+  "version": "1.0.0",
+  "dependencies": {},
+  "devDependencies": {
+    "seedrandom": "^3.0.5"
+  }
+}
