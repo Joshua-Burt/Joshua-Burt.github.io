@@ -19,16 +19,22 @@
     <script>
         let canvas = document.querySelector("#canvas");
         let ctx = canvas.getContext("2d");
+        let showClosestBoids = false;
+        let showVisualCircle = false;
+		let boids = [];
+		let visualRange = 50;
+		let maxBoids = 300;
         ctx.canvas.width  = window.innerWidth;
-        ctx.canvas.height = window.innerHeight;
+        ctx.canvas.height = window.innerHeight - 30;
 
         // Defaults
         const height = 3;
         const strokeWidth = 3;
         const strokeColor = 'black';
-        const boids = [];
         const MAX_SPEED = 5;
         const MIN_SPEED = 1;
+        const COLORS = ['black', 'yellow', 'red', 'blue'];
+
 
 
         let clicked = false;
@@ -41,7 +47,7 @@
 
         sel.mousemove(function(mouseEvent) {
             if(clicked) {
-                addBoid(mouseEvent.pageX, mouseEvent.pageY, (Math.random() * 360), Math.ceil(Math.random() * MAX_SPEED + MIN_SPEED), "black");
+                addBoid(mouseEvent.pageX, mouseEvent.pageY, (Math.random() * 360), Math.ceil(Math.random() * MAX_SPEED + MIN_SPEED), COLORS[Math.floor(Math.random() * 3.9)]);
             }
         });
 
@@ -55,25 +61,28 @@
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
             for(let i = 0; i < boids.length; i++) {
-                findNewPosition(boids[i]);
-                drawPolygon(boids[i].x, boids[i].y, 3, height, strokeWidth, strokeColor, boids[i].color, boids[i].dir);
+				findNewPosition(boids[i]);
+				drawPolygon(boids[i].x, boids[i].y, 3, height, strokeWidth, strokeColor, boids[i].color, boids[i].dir);
+				ctx.lineWidth = 1;
+				if(showClosestBoids) {
+					ctx.beginPath();
 
-                // if(boids[i].color === "yellow") {
-                // 	for(let o = 0; o < boids.length; o++) {
-				// 		ctx.beginPath();
-                //
-                //         for(let j = 0; j < boids[i].closestBoids.length; j++) {
-                //             if(boids[i].closestDists[j] < 50) {
-                //                 ctx.moveTo(boids[i].x, boids[i].y);
-                //                 ctx.lineTo(boids[i].closestBoids[j].x, boids[i].closestBoids[j].y);
-                //             }
-                //         }
-                //
-				// 		ctx.arc(boids[i].x, boids[i].y, 50, 0, 2 * Math.PI);
-				// 		ctx.stroke();
-                //     }
-                // }
-            }
+					for(let j = 0; j < boids[i].closestBoids.length; j++) {
+						if(boids[i].closestDist < visualRange && regDistance(boids[i].x, boids[i].y, boids[i].closestBoids[j].x, boids[i].closestBoids[j].y) < visualRange) {
+							ctx.moveTo(boids[i].x, boids[i].y);
+							ctx.lineTo(boids[i].closestBoids[j].x, boids[i].closestBoids[j].y);
+						}
+					}
+
+					ctx.stroke();
+				}
+
+				if(showVisualCircle) {
+					ctx.beginPath();
+					ctx.arc(boids[i].x, boids[i].y, visualRange, 0, 2 * Math.PI);
+					ctx.stroke();
+                }
+			}
         }
 
         function findNewPosition(boid) {
@@ -99,7 +108,7 @@
 
             let valDir;
 
-            if(boid.closestDist < 50 && boid.closestDist > 10) {
+            if(boid.closestDist < visualRange && boid.closestDist > 10) {
 
 				if (Math.abs(boid.dir - avgDir) <= 180) {
 					// Rotate current directly towards target.
@@ -180,8 +189,14 @@
 			return Math.sqrt(Math.pow(Math.min(Math.abs(x1 - x2), ctx.canvas.width - Math.abs(x1 - x2)), 2) + Math.pow(Math.min(Math.abs(y1 - y2), ctx.canvas.height - Math.abs(y1 - y2)),2));
 		}
 
+		function regDistance(x1,y1,x2,y2) {
+			let a = x1 - x2;
+			let b = y1 - y2;
+			return Math.hypot(a, b);
+        }
+
         function addBoid(x,y,dir,speed,color) {
-        	if(boids.length < 250) {
+        	if(boids.length < maxBoids) {
 				boids.push(new Boid(x, y, dir, speed, color, 0));
             }
        	}
@@ -208,6 +223,29 @@
             ctx.fill();
             ctx.rotate(-radians);
             ctx.translate(-centerX,-centerY);
+        }
+
+        function toggleShowClosestBoid() {
+        	showClosestBoids = !showClosestBoids;
+        }
+
+		function toggleShowCircle() {
+			showVisualCircle = !showVisualCircle;
+		}
+
+		function updateVisualRange() {
+        	visualRange = document.getElementById("visual").value;
+        }
+
+		function updateMaxBoids() {
+			maxBoids = document.getElementById("maxBoids").value;
+			while(boids.length > maxBoids) {
+				deleteBoid();
+            }
+		}
+
+		function reset() {
+        	boids = [];
         }
 
         class Boid {
@@ -252,5 +290,25 @@
 			}
         }
     </script>
+
+    <button onclick="toggleShowClosestBoid()">Show Closest Boids</button>
+    <button onclick="toggleShowCircle()">Show Visual Circle</button>
+    <button onclick="reset()">Reset</button>
+    <a href="../index.html"><button>Homepage</button></a>
+
+    <label for="visual" style="border-left: 1px solid black; padding-left: 5px">Visual Range</label>
+    <input type="range" min="1" max="200" value="50" class="slider" id="visual" onchange="updateVisualRange()">
+
+    <label for="maxBoids" style="border-left: 1px solid black; padding-left: 5px">Maximum Boids</label>
+    <input type="number" min="1" max="500" value="300" id="maxBoids" onchange="updateMaxBoids()">
+
+    <script>
+		let slider = document.getElementById("visual");
+
+		slider.oninput = function() {
+			visualRange = this.value;
+		}
+    </script>
+
 </body>
 </html>
