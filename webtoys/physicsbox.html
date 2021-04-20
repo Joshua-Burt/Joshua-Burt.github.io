@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../stylesheet.css">
+</head>
+<body>
+<canvas id="canvas" width="500" height="500"></canvas>
+
+<script>
+	let canvas = document.querySelector("#canvas");
+	let ctx = canvas.getContext("2d");
+	ctx.canvas.width  = window.innerWidth;
+	ctx.canvas.height = window.innerHeight - 30;
+
+	const EPSILON = 0.1
+    let friction = 0.04;
+	let bounciness = 0.5;
+	let gravity = 9.8;
+	let size = 40;
+	let x = Math.random() * (ctx.canvas.width - size) + size;
+	let y = Math.random() * (ctx.canvas.height - size) + size;
+	let dx = Math.random() * 30 - 15;
+	let dy = Math.random() * 30 - 15;
+	let onEdge = false;
+
+	let interval = setInterval(draw, 10);
+
+	function draw() {
+		ctx.clearRect(0, 0, canvas.width, canvas.height);
+		ctx.fillStyle = "#FFFFFF";
+		ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+		getNewPosition();
+
+		ctx.fillStyle = "#000000";
+
+		let circle = new Path2D();
+		circle.arc(x, y, size, 0, 2 * Math.PI);
+
+		ctx.fill(circle);
+	}
+
+	function getNewPosition() {
+        dy += gravity/100;
+
+        if(y + dy >= ctx.canvas.height - size) {
+        	dy = -dy * bounciness;
+        	onEdge = true;
+        } else {
+        	onEdge = false;
+        }
+
+		if(x + dx >= ctx.canvas.width - size || x + dx <= size) {
+			dx = -dx * bounciness;
+		}
+
+        if(dy > EPSILON || dy < -EPSILON) {
+			y += dy;
+		}
+
+		if(dx > EPSILON || dx < -EPSILON) {
+			if(onEdge) {
+				if(dx > 0) dx += -friction;
+				if(dx < 0) dx += friction;
+			}
+
+			x += dx;
+		}
+    }
+
+
+</script>
+</body>
+</html>
