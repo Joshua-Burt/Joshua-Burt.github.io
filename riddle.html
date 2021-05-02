@@ -1,9 +1,14 @@
 <!DOCTYPE html>
 <html lang="ENG">
+<!--
+    Whatcha looking for?
+    Won't find the answers here :)
+-->
 <head>
     <title>Riddle of the Week</title>
     <link rel="stylesheet" href="stylesheet.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="shortcut icon" type="image/x-icon" href="rotw/favicon.ico"/>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <style>
@@ -47,18 +52,17 @@
             riddles = parseRiddles(data);
 
             let riddleNumber = getRiddleNumber();
-            if(riddleNumber >= riddles.length) {
+            if(riddleNumber >= riddles.length || riddleNumber < 0) {
                 document.getElementById("riddle").innerHTML = "Josh needs to add more riddles :)"
             } else {
                 currentRiddle = riddles[riddleNumber];
                 document.getElementById("riddle").innerHTML = currentRiddle.riddle;
-                console.log(currentRiddle.answer);
             }
         });
 
         function equalsIgnoringCase(text, other) {
-            return text.localeCompare(other, undefined, { sensitivity: 'base' }) === 0;
-        }
+			return text.localeCompare(other, undefined, {sensitivity: 'base'}) === 0 || text.includes(other);
+		}
 
 
         function parseRiddles(data) {
@@ -75,7 +79,6 @@
                     riddles.push(riddleObj);
                 }
             }
-
             return riddles;
         }
 
@@ -85,8 +88,12 @@
             if(userAnswer.length > 0) {
                 if(equalsIgnoringCase(userAnswer.trim(), currentRiddle.answer)) {
 					document.body.style.backgroundColor = 'rgb(' + [85,228,47].join(",") + ')';
+					document.getElementById("result").style.display = "inline-block";
+					document.getElementById("result").innerHTML = "Nice job! Go and write your name on the board! :D"
                 } else {
 					document.body.style.backgroundColor = 'rgb(' + [224,74,74].join(",") + ')';
+					document.getElementById("result").style.display = "inline-block";
+					document.getElementById("result").innerHTML = "Incorrect! Try again :)"
                 }
             }
         }
@@ -99,5 +106,7 @@
     <input type="text" id="answer"/>
     <p>
     <button type="submit" onclick="checkAnswer()">Submit</button>
+
+    <div id="result" style="display: none"></div>
 </body>
 </html>
