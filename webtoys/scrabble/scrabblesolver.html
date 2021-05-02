@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Scrabble Solver | Joshua Burt</title>
+    <link rel="stylesheet" href="../../stylesheet.css">
+</head>
+<body>
+<canvas class="center" id="canvas" width="500" height="500"></canvas>
+
+<script>
+	let canvas = document.querySelector("#canvas");
+	let ctx = canvas.getContext("2d");
+	let squareSize = 50;
+	let buffer = 4;
+    let boardSize = 15;
+
+	ctx.canvas.width  = (squareSize + buffer) * boardSize;
+	ctx.canvas.height = (squareSize + buffer) * boardSize;
+
+	// Rounded Rectangle
+    // https://newfivefour.com/javascript-canvas-rounded-rectangle.html
+	CanvasRenderingContext2D.prototype.roundedRectangle = function(x, y, width, height, rounded) {
+		const halfRadians = (2 * Math.PI) / 2;
+		const quarterRadians = (2 * Math.PI) / 4;
+
+		// top left arc
+		this.arc(rounded + x, rounded + y, rounded, -quarterRadians, halfRadians, true);
+
+		// line from top left to bottom left
+		this.lineTo(x, y + height - rounded);
+
+		// bottom left arc
+		this.arc(rounded + x, height - rounded + y, rounded, halfRadians, quarterRadians, true);
+
+		// line from bottom left to bottom right
+		this.lineTo(x + width - rounded, y + height);
+
+		// bottom right arc
+		this.arc(x + width - rounded, y + height - rounded, rounded, quarterRadians, 0, true);
+
+		// line from bottom right to top right
+		this.lineTo(x + width, y + rounded);
+
+		// top right arc
+		this.arc(x + width - rounded, y + rounded, rounded, 0, -quarterRadians, true);
+
+		// line from top right to top left
+		this.lineTo(x + rounded, y);
+        return this;
+	}
+
+	draw()
+
+	function draw() {
+		ctx.clearRect(0, 0, canvas.width, canvas.height);
+		ctx.fillStyle = "#d4d4d4";
+		ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+		for(let i = 0; i < boardSize; i++) {
+			for(let j = 0; j < boardSize; j++) {
+
+				ctx.beginPath();
+				ctx.fillStyle = "#3c3c3c"
+                let shadowX = (buffer / 2) + i * squareSize + (i * buffer);
+				let shadowY = (buffer / 2) + j * squareSize + (j * buffer);
+				ctx.roundedRectangle(shadowX, shadowY, squareSize, squareSize, 10);
+				ctx.fill();
+
+				ctx.beginPath();
+				ctx.fillStyle = "#acacac"
+				let squareX = (buffer / 2) + i * squareSize + (i * buffer);
+				let squareY = buffer + j * squareSize + (j * buffer);
+				ctx.roundedRectangle(squareX, squareY, squareSize, squareSize, 10);
+				ctx.fill();
+			}
+		}
+    }
+</script>
+</body>
+</html>

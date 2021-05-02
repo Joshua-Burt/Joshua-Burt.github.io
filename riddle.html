@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ENG">
+<head>
+    <title>Riddle of the Week</title>
+    <link rel="stylesheet" href="stylesheet.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <style>
+        body {
+            transition: background-color 80ms cubic-bezier(1, 1, 1, 1);
+            transition-delay: 0s;
+        }
+    </style>
+</head>
+<body class="center">
+    <script>
+        let riddles;
+        let currentRiddle;
+        class Riddle {
+            constructor(riddle, answer) {
+                this.riddle = riddle;
+                this.answer = answer;
+            }
+        }
+
+        Date.prototype.getWeekNumber = function(){
+            let d = new Date(Date.UTC(this.getFullYear(), this.getMonth(), this.getDate()));
+            let dayNum = d.getUTCDay() || 7;
+            d.setUTCDate(d.getUTCDate() + 4 - dayNum);
+            let yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+            return Math.ceil((((d - yearStart) / 86400000) + 1)/7)
+        };
+
+        function getRiddleNumber() {
+            let timestamp = new Date().getWeekNumber();
+
+            // Starting week number value
+            let startWeek = 17;
+
+            return timestamp - startWeek;
+        }
+
+        fetch("rotw/riddles.txt")
+        .then(response => response.text())
+        .then(data => {
+            riddles = parseRiddles(data);
+
+            let riddleNumber = getRiddleNumber();
+            if(riddleNumber >= riddles.length) {
+                document.getElementById("riddle").innerHTML = "Josh needs to add more riddles :)"
+            } else {
+                currentRiddle = riddles[riddleNumber];
+                document.getElementById("riddle").innerHTML = currentRiddle.riddle;
+                console.log(currentRiddle.answer);
+            }
+        });
+
+        function equalsIgnoringCase(text, other) {
+            return text.localeCompare(other, undefined, { sensitivity: 'base' }) === 0;
+        }
+
+
+        function parseRiddles(data) {
+            let riddles = [];
+            let lines = data.split("\n");
+            for(let i = 0; i < lines.length; i++) {
+                if(lines[i].includes("~")) {
+                    let riddle = lines[i].substr(1);
+                    let answer = lines[i + 1].substr(1).trim();
+
+                    i += 1;
+
+                    let riddleObj = new Riddle(riddle, answer);
+                    riddles.push(riddleObj);
+                }
+            }
+
+            return riddles;
+        }
+
+        function checkAnswer() {
+            let userAnswer = document.getElementById("answer").value;
+
+            if(userAnswer.length > 0) {
+                if(equalsIgnoringCase(userAnswer.trim(), currentRiddle.answer)) {
+					document.body.style.backgroundColor = 'rgb(' + [85,228,47].join(",") + ')';
+                } else {
+					document.body.style.backgroundColor = 'rgb(' + [224,74,74].join(",") + ')';
+                }
+            }
+        }
+
+    </script>
+
+    <h2 id="riddle">Question</h2>
+    <label for="answer">Answer:</label>
+    <br>
+    <input type="text" id="answer"/>
+    <p>
+    <button type="submit" onclick="checkAnswer()">Submit</button>
+</body>
+</html>
