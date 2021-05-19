@@ -4,21 +4,52 @@
     <meta charset="UTF-8">
     <title>Scrambler</title>
     <link rel="stylesheet" href="../stylesheet.css">
+    <link rel="shortcut icon" type="image/x-icon" href="../imgs/favicon.ico"/>
+
+    <style>
+        textarea, label {
+            font-size: 24px;
+        }
+
+        label, h2 {
+            font-family: lemonMilk,Roboto,sans-serif;
+        }
+
+        body {
+            background-color: #a5ece9;
+        }
+    </style>
 </head>
 <body>
-<a href="../index.html">Main Page</a>
-<h2>Scrambling tool that preserves spaces between words</h2>
-
+    <a href="../index.html">Main Page</a>
+    <h2>Scrambling tool that preserves spaces between words</h2>
+    <p>
+        <img src="../imgs/scrambler/eggsmall.png">
+        <img class="vertical-center" src="../imgs/scrambler/arrow.png">
+        <img src="../imgs/scrambler/scrambledsmall.png">
+    </p>
     <div class="center">
-        <label for="input">Input:</label><br>
-        <textarea id="input" style="width:300px; height:200px"></textarea>
+        <table>
+            <tr>
+                <th><label for="input">Input:</label></th>
+                <th><label for="output">Output:</label></th>
+            </tr>
+            <tr>
+                <td style="padding-right: 5px;"><textarea id="input" style="width:300px; height:200px"></textarea></td>
+                <td style="padding-left: 5px"><textarea id="output" style="width:300px; height:200px"></textarea></td>
+            </tr>
+            <tr>
+                <td colspan="2"><button id="submit" class="button" onclick="scramble()">Scramble</button></td>
+            </tr>
+        </table>
+
+
         <br>
-        <button id="submit" onclick="scramble()">Scramble</button>
+
         <p></p>
         <p></p>
 
-        <label for="output">Output:</label><br>
-        <textarea id="output" style="width:300px; height:200px"></textarea>
+
     </div>
     <script>
         let iterations = 100;
