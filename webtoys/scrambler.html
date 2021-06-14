@@ -5,30 +5,39 @@
     <title>Scrambler</title>
     <link rel="stylesheet" href="../stylesheet.css">
     <link rel="shortcut icon" type="image/x-icon" href="../imgs/favicon.ico"/>
-
+    <script src="scrambler/scrambler.js"></script>
     <style>
         textarea, label {
             font-size: 24px;
         }
 
-        label, h2 {
+        label, h2, h4 {
             font-family: lemonMilk,Roboto,sans-serif;
         }
 
         body {
             background-color: #a5ece9;
         }
+
+        table, th, td {
+            border: 1px solid black;
+        }
+
+        .delimiterDisplay {
+            text-align: left;
+            font-size: 24px;
+            position: absolute;
+        }
     </style>
 </head>
-<body>
-    <a href="../index.html">Main Page</a>
-    <h2>Scrambling tool that preserves spaces between words</h2>
-    <p>
-        <img src="../imgs/scrambler/eggsmall.png">
-        <img class="vertical-center" src="../imgs/scrambler/arrow.png">
-        <img src="../imgs/scrambler/scrambledsmall.png">
-    </p>
-    <div class="center">
+<body class="center">
+    <div id="topText">
+        <a href="../index.html">Main Page</a>
+        <h2>Word Scrambling tool that preserves positions of spaces and hyphens</h2>
+        <h4>Or you can specify the characters below</h4>
+    </div>
+
+    <div id="table">
         <table>
             <tr>
                 <th><label for="input">Input:</label></th>
@@ -39,55 +48,21 @@
                 <td style="padding-left: 5px"><textarea id="output" style="width:300px; height:200px"></textarea></td>
             </tr>
             <tr>
+                <td colspan="2">
+                    <label for="delimiter" style="font-size:12px;">Characters to preserve position (Leave empty for spaces and hyphens)</label>
+                    <br><textarea id="delimiter"></textarea>
+                </td>
+            </tr>
+            <tr>
                 <td colspan="2"><button id="submit" class="button" onclick="scramble()">Scramble</button></td>
             </tr>
         </table>
-
-
-        <br>
-
-        <p></p>
-        <p></p>
-
-
     </div>
-    <script>
-        let iterations = 100;
 
-        function scramble(string) {
-            let inputArray;
-        	if(string === undefined) {
-				let inputBox = document.getElementById("input");
-				let inputString = inputBox.value;
-				inputArray = inputString.split(" ");
-			} else {
-        		inputArray = string.split(" ");
-            }
-
-            let outputString = "";
-			for(let i = 0; i < inputArray.length; i++) {
-				let wordArray = inputArray[i].split("");
-
-				for(let o = 0; o < iterations; o++) {
-					let random1 = getRandomInt(wordArray.length)
-					let random2 = getRandomInt(wordArray.length)
-
-					let a = wordArray[random1];
-					wordArray[random1] = wordArray[random2];
-					wordArray[random2] = a;
-                }
-
-				outputString += wordArray.join("").toString() + " ";
-            }
-
-			let outputBox = document.getElementById("output");
-
-			outputBox.value = outputString;
-        }
-
-		function getRandomInt(max) {
-			return Math.floor(Math.random() * max);
-		}
-    </script>
+    <p>
+        <img src="../imgs/scrambler/eggsmall.png" alt="Egg image">
+        <img class="vertical-center" src="../imgs/scrambler/arrow.png" alt="Arrow pointing right">
+        <img src="../imgs/scrambler/scrambledsmall.png" alt="Scrambled eggs">
+    </p>
 </body>
 </html>
