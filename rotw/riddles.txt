@@ -3,7 +3,7 @@
 
 
 ~What has 13 hearts, but no other organs?
-=cards
+=card
 
 
 ~It stalks the countryside with ears that can’t hear. What is it?
