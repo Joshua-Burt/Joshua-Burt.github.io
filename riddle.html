@@ -17,6 +17,12 @@
             transition-delay: 0s;
         }
 
+        a:link {
+            color: red;
+            background-color: transparent;
+            text-decoration: none;
+        }
+
         .unselectable {
             -webkit-touch-callout: none;
             -webkit-user-select: none;
@@ -25,9 +31,18 @@
             -ms-user-select: none;
             user-select: none;
         }
+
+        .footer {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+        }
     </style>
 </head>
-<body class="center">
+<body>
+    <div class="center">
     <script>
         let riddles;
         let currentRiddle;
@@ -109,13 +124,18 @@
 
     </script>
 
-    <h2 id="riddle" class="unselectable">Question</h2>
-    <label for="answer">Answer:</label>
-    <br>
-    <input type="text" id="answer"/>
-    <p>
-    <button type="submit" onclick="checkAnswer()">Submit</button>
+        <h2 id="riddle" class="unselectable">Question</h2>
+        <label for="answer">Answer:</label>
+        <br>
+        <input type="text" id="answer"/>
+        <p>
+        <button type="submit" onclick="checkAnswer()">Submit</button>
 
-    <div id="result" style="display: none"></div>
+        <div id="result" style="display: none"></div>
+    </div>
+
+    <div id="rick" class="footer">
+        <a href="rotw/redir.html" target="_blank">Riddle Answers: NOT FOR NINJA EYES</a>
+    </div>
 </body>
 </html>
