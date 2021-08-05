@@ -48,3 +48,7 @@
 
 ~What word is pronounced the same if you take away four of its five letters?
 =queue
+
+
+~What (capitalized) 4-letter word can be written forward, backward or upside down, and can still be read from left to right?
+=noon
