@@ -36,3 +36,15 @@
 
 ~Mississippi has four S's and four I's. Can you spell that without using any S's or I's?
 =that
+
+
+~I am always hungry and will die if not fed, but whatever I touch will soon turn red. What am I?
+=fire
+
+
+~A man calls his dog from the opposite side of the river. The dog crosses the river without getting wet, and without using a bridge or boat. How?
+=frozen
+
+
+~What word is pronounced the same if you take away four of its five letters?
+=queue
