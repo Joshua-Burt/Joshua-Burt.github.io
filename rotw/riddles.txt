@@ -52,3 +52,11 @@
 
 ~What (capitalized) 4-letter word can be written forward, backward or upside down, and can still be read from left to right?
 =noon
+
+
+~Alive without breath, as cold as death, never thirsty, ever drinking, all in mail never clinking.
+=fish
+
+
+~What has roots as nobody sees, is taller than trees, up, up it goes, and yet never grows?
+=mountain

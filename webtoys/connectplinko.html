@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Connect Plinko</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <canvas id="canvas" width="500" height="500"></canvas>
+    <script>
+		class Peg {
+			constructor(x,y) {
+				this.x = x;
+				this.y = y;
+				this.radius = 10
+			}
+
+			draw() {
+				ctx.beginPath();
+				ctx.lineWidth = 1;
+				ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
+				ctx.fillStyle = "#e97b4a";
+				ctx.fill();
+				ctx.stroke();
+			}
+		}
+
+		class Hole {
+			constructor(x,y) {
+				this.x = x;
+				this.y = y;
+				this.color = null;
+				this.radius = 25;
+			}
+
+			draw() {
+				ctx.beginPath();
+				ctx.lineWidth = 4;
+				ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
+				ctx.stroke();
+			}
+        }
+
+		class Wall {
+			constructor(x1,y1,x2,y2) {
+				this.x1 = x1;
+				this.y1 = y1;
+				this.x2 = x2;
+				this.y2 = y2;
+			}
+
+			draw() {
+				ctx.beginPath();
+				ctx.lineWidth = 5;
+				ctx.strokeStyle = "#000000";
+				ctx.moveTo(this.x1,this.y1);
+                ctx.lineTo(this.x2,this.y2);
+				ctx.stroke();
+			}
+		}
+
+        class Coin {
+			constructor(x,y,colour) {
+				this.x = x;
+				this.y = y;
+				this.radius = 25;
+				this.colour = colour;
+				this.speedX = 0;
+				this.speedY = 0;
+			}
+
+			draw() {
+				ctx.beginPath();
+				ctx.lineWidth = 1;
+				ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
+				ctx.fillStyle = this.colour;
+				ctx.fill();
+				ctx.stroke();
+			}
+        }
+
+		let canvas = document.querySelector("#canvas");
+		let ctx = canvas.getContext("2d");
+		ctx.canvas.width  = window.innerWidth - 10;
+		ctx.canvas.height = window.innerHeight - 30;
+        let rows = 4;
+		let columns;
+		let pegs = [];
+		let holes = [];
+		let walls = [];
+		let spacing = 80;
+		let isPlaying = false;
+		let sel = $('#canvas');
+		let coin = null;
+		let isP1Turn = true;
+
+		const EPSILON = 0.1
+		let friction = 0.04;
+		let bounciness = 0.6;
+		let gravity = 9.8;
+
+		let startingPointLeft = (ctx.canvas.width / 2) - ((15 + spacing) * 3.5);
+
+		let verticalPos = 100;
+		for(let i = 0; i < rows; i++) {
+			if(i % 2 === 0) {
+				columns = 7;
+            } else {
+				columns = 6;
+            }
+
+			pegs[i] = [];
+			for(let o = 0; o < columns; o++) {
+				if(columns === 6) {
+					pegs[i][o] = new Peg(startingPointLeft + spacing / 2 + spacing * (o + 1), verticalPos);
+				} else {
+					pegs[i][o] = new Peg(startingPointLeft + spacing * (o + 1), verticalPos);
+                }
+            }
+
+			verticalPos += 80;
+        }
+
+
+		let holeSpacing = 74;
+		for(let i = 0; i < 7; i++) {
+			holes[i] = [];
+			for(let o = 0; o < 6; o++) {
+				holes[i][o] = new Hole(startingPointLeft + 100 + i * holeSpacing, 425 + o * (holeSpacing - 15));
+            }
+        }
+
+		createWalls();
+
+		setInterval(draw, 10);
+
+		function draw() {
+			ctx.clearRect(0, 0, canvas.width, canvas.height);
+			ctx.fillStyle = "#ffffff";
+			ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+			ctx.fillStyle = "#2532ba";
+			ctx.fillRect(startingPointLeft, 375, (15 + spacing) * 7, 600);
+
+			// Draw Pegs
+			for(let i = 0; i < pegs.length; i++) {
+				for(let o = 0; o < pegs[i].length; o++) {
+					pegs[i][o].draw();
+                }
+            }
+
+			if(coin !== null) {
+				getNewPosition();
+				coin.draw();
+			}
+
+			// Draw Holes
+			for(let i = 0; i < holes.length; i++) {
+				for(let o = 0; o < holes[i].length; o++) {
+					holes[i][o].draw();
+				}
+			}
+
+			// Draw Walls
+            for(let i = 0; i < walls.length; i++) {
+            	walls[i].draw();
+            }
+		}
+
+		sel.mousedown(function (mouseEvent) {
+			// if(isPlaying === false) {
+			// 	isPlaying = true;
+
+				if(isP1Turn) {
+					coin = new Coin(mouseEvent.pageX, mouseEvent.pageY, "#e30000");
+					isP1Turn = false;
+				} else {
+					coin = new Coin(mouseEvent.pageX, mouseEvent.pageY, "#e3b200");
+					isP1Turn = true;
+                }
+            // }
+		});
+
+		function createWalls() {
+			// Left Wall
+            walls[0] = new Wall(startingPointLeft + 50, 0, startingPointLeft + 50, ctx.canvas.height);
+
+            // Right Wall
+            walls[1] = new Wall(startingPointLeft + (11 + spacing) * 7 - 50, 0, startingPointLeft + (11 + spacing) * 7 - 50, ctx.canvas.height);
+
+			// Bottom Wall
+			walls[2] = new Wall(startingPointLeft, ctx.canvas.height - 2.5, startingPointLeft + (15 + spacing) * 7, ctx.canvas.height - 2.5);
+        }
+
+		function getNewPosition() {
+			coin.speedY += gravity/100;
+
+            let peg = checkPegCollision();
+			if(peg != null) {
+                coin.speedY = -coin.speedY * bounciness;
+				coin.speedX = (coin.x - peg.x) / 30 * bounciness;
+			}
+
+			checkWallCollision();
+
+			coin.x += coin.speedX;
+			coin.y += coin.speedY;
+		}
+
+		function checkPegCollision() {
+			for(let i = 0; i < pegs.length; i++) {
+				for(let o = 0; o < pegs[i].length; o++) {
+                    let pegRadius = pegs[i][o].radius;
+                    let coinRadius = coin.radius;
+
+                    if(dist(pegs[i][o].x, pegs[i][o].y, coin.x + coin.speedX, coin.y + coin.speedY) <= pegRadius + coinRadius) {
+                        return pegs[i][o];
+                    }
+                }
+            }
+			return null;
+        }
+
+        function checkWallCollision() {
+			// Left Wall
+			if(coin.x + coin.speedX - coin.radius < walls[0].x1) {
+				coin.speedX = -coin.speedX * bounciness;
+            }
+
+            // Right Wall
+            if(coin.x + coin.speedX + coin.radius > walls[1].x1) {
+				coin.speedX = -coin.speedX * bounciness;
+            }
+
+            // Bottom Wall
+            if(coin.y + coin.speedY + coin.radius > walls[2].y1) {
+				coin.speedY = -coin.speedY * bounciness;
+            }
+        }
+
+
+		function dist(x1,y1,x2,y2) {
+			let a = x1 - x2;
+			let b = y1 - y2;
+			return Math.hypot(a, b);
+		}
+    </script>
+</body>
+</html>

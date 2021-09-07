@@ -76,11 +76,15 @@
             riddles = parseRiddles(data);
 
             let riddleNumber = getRiddleNumber();
+            let lastRiddleNumber = riddleNumber - 1;
             if(riddleNumber >= riddles.length || riddleNumber < 0) {
                 document.getElementById("riddle").innerHTML = "Josh needs to add more riddles :)"
             } else {
                 currentRiddle = riddles[riddleNumber];
                 document.getElementById("riddle").innerHTML = currentRiddle.riddle;
+
+				let lastRiddle = riddles[lastRiddleNumber];
+                document.getElementById("last").innerHTML = "<h3>Last week's riddle & answer:</h3><br><i>" + lastRiddle.riddle + "</i><br>" + "<b>" + lastRiddle.answer + "</b>";
             }
         });
 
@@ -132,6 +136,10 @@
         <button type="submit" onclick="checkAnswer()">Submit</button>
 
         <div id="result" style="display: none"></div>
+    </div>
+
+    <div id="last">
+        Last week's riddle & answer:
     </div>
 
     <div id="rick" class="footer">

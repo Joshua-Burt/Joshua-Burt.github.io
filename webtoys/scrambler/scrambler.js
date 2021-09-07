@@ -1,6 +1,6 @@
 
 let iterations = 100;
-let defaultDelimiter = "/ -/";
+let defaultDelimiter = " ";
 
 function getInputtedValues() {
 	let inputBox = document.getElementById("input");
@@ -13,14 +13,36 @@ function getInputtedValues() {
 }
 
 function stringToArray(string, delimiter) {
-	let inputArray;
-	if(delimiter === "") {
-		inputArray = string.split(defaultDelimiter);
-	} else {
-		inputArray = string.split(delimiter);
+	if(delimiter !== "") {
+		delimiter = defaultDelimiter;
+	}
+
+	let inputArray = [];
+	for(let i = 0; i < string.length; i++) {
+		let wordArray = [];
+		let index = 0;
+		while(!containsDelimiter(string[i], delimiter)) {
+			wordArray[index] = string[i];
+			index++;
+			i++;
+		}
+		wordArray[wordArray.length] = string[i];
+		inputArray[inputArray.length - 1] = [wordArray];
 	}
 
 	return inputArray;
+}
+
+function containsDelimiter(src, delimiter) {
+	let contains = false;
+	for(let i = 0; i < src.length; i++) {
+		for(let o = 0; o < delimiter.length; o++) {
+			if(src[i] === delimiter[o]) {
+				contains = true;
+			}
+		}
+	}
+	return contains;
 }
 
 function scramble() {
