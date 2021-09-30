@@ -60,3 +60,8 @@
 
 ~What has roots as nobody sees, is taller than trees, up, up it goes, and yet never grows?
 =mountain
+
+
+
+~I can move swiftly without legs, without arms, and without warning. I need air but I don't have lungs. I can eat almost anything, but a drink will weaken me.
+=fire
