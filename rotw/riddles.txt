@@ -67,7 +67,7 @@
 =fire
 
 
-~Here is my hand<br><img src="https://i2.wp.com/backyardbees.wpengine.com/wp-content/uploads/2017/03/IMG_3327-1024x1024.jpg?resize=500%2C500" width=400px height=400px></img><br>What is in my eye?
+~Here is my hand<br><!--<img src="https://i2.wp.com/backyardbees.wpengine.com/wp-content/uploads/2017/03/IMG_3327-1024x1024.jpg?resize=500%2C500" width=400px height=400px></img>--><br>What is in my eye?
 =beauty
 
 
