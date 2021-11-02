@@ -79,3 +79,7 @@
 
 ~When is 9 + 9 = 6 correct?
 =clock
+
+
+~Sherlock Holmes had two<br>While John Watson had one.<br>Severus Snape had a few<br>But Harry Potter had none.<br>If you take it off your shoe<br>You can get some digging done.<br>When put with what owls do<br>It sounds like a gun.
+=S
