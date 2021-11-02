@@ -80,8 +80,5 @@
 ~
 =
 
-~
-=
-
 ~When is 9 + 9 = 6 correct?
 =clock
