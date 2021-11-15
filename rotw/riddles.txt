@@ -82,4 +82,8 @@
 
 
 ~Sherlock Holmes had two<br>While John Watson had one.<br>Severus Snape had a few<br>But Harry Potter had none.<br>If you take it off your shoe<br>You can get some digging done.<br>When put with what owls do<br>It sounds like a gun.
-=S
+=s
+
+
+~I can take you to destinations,<br>unreachable to man,<br>or I can take you to where you first began.<br>But if you tumble or lack the strength, <br>then I may just shorten your life's length.
+=ladder
