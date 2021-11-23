@@ -87,3 +87,7 @@
 
 ~I can take you to destinations,<br>unreachable to man,<br>or I can take you to where you first began.<br>But if you tumble or lack the strength, <br>then I may just shorten your life's length.
 =ladder
+
+
+~I was born a commoner, the least-valued of all,<br>War after war, I have seen us all fall,<br>So far from rank, we all await the call,<br>I am now the most powerful of all.
+=pawn
