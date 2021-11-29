@@ -2,7 +2,7 @@
 <html lang="ENG">
 <!--
     Whatcha looking for?
-    Won't find the answers here :)
+    You won't find the answers here anymore :)
 -->
 <head>
     <title>Riddle of the Week</title>
@@ -73,7 +73,8 @@
         fetch("rotw/riddles.txt")
         .then(response => response.text())
         .then(data => {
-            riddles = parseRiddles(data);
+            let input = antiCipher(data);
+            riddles = parseRiddles(input);
 
             let riddleNumber = getRiddleNumber();
             let lastRiddleNumber = riddleNumber - 1;
@@ -124,6 +125,10 @@
 					document.getElementById("result").innerHTML = "Incorrect! Try again :)"
                 }
             }
+        }
+
+        function antiCipher(inputStr) {
+            return atob(inputStr);
         }
 
     </script>

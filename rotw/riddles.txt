@@ -1,93 +1,47 @@
-~David’s parents have three sons: Snap, Crackle, and what’s the name of the third son?
-=david
-
-
-~What has 13 hearts, but no other organs?
-=card
-
-
-~It stalks the countryside with ears that can’t hear. What is it?
-=corn
-
-
-~What has a bottom at the top?
-=legs
-
-
-~What five-letter word becomes shorter when you add two letters to it?
-=short
-
-
-~What is 3/7 chicken, 2/3 cat and 2/4 goat?
-=chicago
-
-
-~What goes through cities and fields, but never moves?
-=roads
-
-
-~I have a tail and a head, but no body. What am I?
-=coin
-
-
-~I have rings made of rock and ice, but you cannot wear them on your fingers. They are way too big. What am I?
-=saturn
-
-
-~Mississippi has four S's and four I's. Can you spell that without using any S's or I's?
-=that
-
-
-~I am always hungry and will die if not fed, but whatever I touch will soon turn red. What am I?
-=fire
-
-
-~A man calls his dog from the opposite side of the river. The dog crosses the river without getting wet, and without using a bridge or boat. How?
-=frozen
-
-
-~What word is pronounced the same if you take away four of its five letters?
-=queue
-
-
-~What (capitalized) 4-letter word can be written forward, backward or upside down, and can still be read from left to right?
-=noon
-
-
-~Alive without breath, as cold as death, never thirsty, ever drinking, all in mail never clinking.
-=fish
-
-
-~What has roots as nobody sees, is taller than trees, up, up it goes, and yet never grows?
-=mountain
-
-
-
-~I can move swiftly without legs, without arms, and without warning. I need air but I don't have lungs. I can eat almost anything, but a drink will weaken me.
-=fire
-
-
-~Here is my hand<br><!--<img src="https://i2.wp.com/backyardbees.wpengine.com/wp-content/uploads/2017/03/IMG_3327-1024x1024.jpg?resize=500%2C500" width=400px height=400px></img>--><br>What is in my eye?
-=beauty
-
-
-~I have cities, but no houses. I have mountains, but no trees. I have water, but no fish. What am I?
-=map
-
-~
-=
-
-~When is 9 + 9 = 6 correct?
-=clock
-
-
-~Sherlock Holmes had two<br>While John Watson had one.<br>Severus Snape had a few<br>But Harry Potter had none.<br>If you take it off your shoe<br>You can get some digging done.<br>When put with what owls do<br>It sounds like a gun.
-=s
-
-
-~I can take you to destinations,<br>unreachable to man,<br>or I can take you to where you first began.<br>But if you tumble or lack the strength, <br>then I may just shorten your life's length.
-=ladder
-
-
-~I was born a commoner, the least-valued of all,<br>War after war, I have seen us all fall,<br>So far from rank, we all await the call,<br>I am now the most powerful of all.
-=pawn
+fkRhdmlk4oCZcyBwYXJlbnRzIGhhdmUgdGhyZWUgc29uczogU25hcCwgQ3JhY2tsZSwgYW5kIHdo
+YXTigJlzIHRoZSBuYW1lIG9mIHRoZSB0aGlyZCBzb24/Cj1kYXZpZAoKCn5XaGF0IGhhcyAxMyBo
+ZWFydHMsIGJ1dCBubyBvdGhlciBvcmdhbnM/Cj1jYXJkCgoKfkl0IHN0YWxrcyB0aGUgY291bnRy
+eXNpZGUgd2l0aCBlYXJzIHRoYXQgY2Fu4oCZdCBoZWFyLiBXaGF0IGlzIGl0Pwo9Y29ybgoKCn5X
+aGF0IGhhcyBhIGJvdHRvbSBhdCB0aGUgdG9wPwo9bGVncwoKCn5XaGF0IGZpdmUtbGV0dGVyIHdv
+cmQgYmVjb21lcyBzaG9ydGVyIHdoZW4geW91IGFkZCB0d28gbGV0dGVycyB0byBpdD8KPXNob3J0
+CgoKfldoYXQgaXMgMy83IGNoaWNrZW4sIDIvMyBjYXQgYW5kIDIvNCBnb2F0Pwo9Y2hpY2FnbwoK
+Cn5XaGF0IGdvZXMgdGhyb3VnaCBjaXRpZXMgYW5kIGZpZWxkcywgYnV0IG5ldmVyIG1vdmVzPwo9
+cm9hZHMKCgp+SSBoYXZlIGEgdGFpbCBhbmQgYSBoZWFkLCBidXQgbm8gYm9keS4gV2hhdCBhbSBJ
+Pwo9Y29pbgoKCn5JIGhhdmUgcmluZ3MgbWFkZSBvZiByb2NrIGFuZCBpY2UsIGJ1dCB5b3UgY2Fu
+bm90IHdlYXIgdGhlbSBvbiB5b3VyIGZpbmdlcnMuIFRoZXkgYXJlIHdheSB0b28gYmlnLiBXaGF0
+IGFtIEk/Cj1zYXR1cm4KCgp+TWlzc2lzc2lwcGkgaGFzIGZvdXIgUydzIGFuZCBmb3VyIEkncy4g
+Q2FuIHlvdSBzcGVsbCB0aGF0IHdpdGhvdXQgdXNpbmcgYW55IFMncyBvciBJJ3M/Cj10aGF0CgoK
+fkkgYW0gYWx3YXlzIGh1bmdyeSBhbmQgd2lsbCBkaWUgaWYgbm90IGZlZCwgYnV0IHdoYXRldmVy
+IEkgdG91Y2ggd2lsbCBzb29uIHR1cm4gcmVkLiBXaGF0IGFtIEk/Cj1maXJlCgoKfkEgbWFuIGNh
+bGxzIGhpcyBkb2cgZnJvbSB0aGUgb3Bwb3NpdGUgc2lkZSBvZiB0aGUgcml2ZXIuIFRoZSBkb2cg
+Y3Jvc3NlcyB0aGUgcml2ZXIgd2l0aG91dCBnZXR0aW5nIHdldCwgYW5kIHdpdGhvdXQgdXNpbmcg
+YSBicmlkZ2Ugb3IgYm9hdC4gSG93Pwo9ZnJvemVuCgoKfldoYXQgd29yZCBpcyBwcm9ub3VuY2Vk
+IHRoZSBzYW1lIGlmIHlvdSB0YWtlIGF3YXkgZm91ciBvZiBpdHMgZml2ZSBsZXR0ZXJzPwo9cXVl
+dWUKCgp+V2hhdCAoY2FwaXRhbGl6ZWQpIDQtbGV0dGVyIHdvcmQgY2FuIGJlIHdyaXR0ZW4gZm9y
+d2FyZCwgYmFja3dhcmQgb3IgdXBzaWRlIGRvd24sIGFuZCBjYW4gc3RpbGwgYmUgcmVhZCBmcm9t
+IGxlZnQgdG8gcmlnaHQ/Cj1ub29uCgoKfkFsaXZlIHdpdGhvdXQgYnJlYXRoLCBhcyBjb2xkIGFz
+IGRlYXRoLCBuZXZlciB0aGlyc3R5LCBldmVyIGRyaW5raW5nLCBhbGwgaW4gbWFpbCBuZXZlciBj
+bGlua2luZy4KPWZpc2gKCgp+V2hhdCBoYXMgcm9vdHMgYXMgbm9ib2R5IHNlZXMsIGlzIHRhbGxl
+ciB0aGFuIHRyZWVzLCB1cCwgdXAgaXQgZ29lcywgYW5kIHlldCBuZXZlciBncm93cz8KPW1vdW50
+YWluCgoKCn5JIGNhbiBtb3ZlIHN3aWZ0bHkgd2l0aG91dCBsZWdzLCB3aXRob3V0IGFybXMsIGFu
+ZCB3aXRob3V0IHdhcm5pbmcuIEkgbmVlZCBhaXIgYnV0IEkgZG9uJ3QgaGF2ZSBsdW5ncy4gSSBj
+YW4gZWF0IGFsbW9zdCBhbnl0aGluZywgYnV0IGEgZHJpbmsgd2lsbCB3ZWFrZW4gbWUuCj1maXJl
+CgoKfkhlcmUgaXMgbXkgaGFuZDxicj48IS0tPGltZyBzcmM9Imh0dHBzOi8vaTIud3AuY29tL2Jh
+Y2t5YXJkYmVlcy53cGVuZ2luZS5jb20vd3AtY29udGVudC91cGxvYWRzLzIwMTcvMDMvSU1HXzMz
+MjctMTAyNHgxMDI0LmpwZz9yZXNpemU9NTAwJTJDNTAwIiB3aWR0aD00MDBweCBoZWlnaHQ9NDAw
+cHg+PC9pbWc+LS0+PGJyPldoYXQgaXMgaW4gbXkgZXllPwo9YmVhdXR5CgoKfkkgaGF2ZSBjaXRp
+ZXMsIGJ1dCBubyBob3VzZXMuIEkgaGF2ZSBtb3VudGFpbnMsIGJ1dCBubyB0cmVlcy4gSSBoYXZl
+IHdhdGVyLCBidXQgbm8gZmlzaC4gV2hhdCBhbSBJPwo9bWFwCgp+Cj0KCn5XaGVuIGlzIDkgKyA5
+ID0gNiBjb3JyZWN0Pwo9Y2xvY2sKCgp+U2hlcmxvY2sgSG9sbWVzIGhhZCB0d288YnI+V2hpbGUg
+Sm9obiBXYXRzb24gaGFkIG9uZS48YnI+U2V2ZXJ1cyBTbmFwZSBoYWQgYSBmZXc8YnI+QnV0IEhh
+cnJ5IFBvdHRlciBoYWQgbm9uZS48YnI+SWYgeW91IHRha2UgaXQgb2ZmIHlvdXIgc2hvZTxicj5Z
+b3UgY2FuIGdldCBzb21lIGRpZ2dpbmcgZG9uZS48YnI+V2hlbiBwdXQgd2l0aCB3aGF0IG93bHMg
+ZG88YnI+SXQgc291bmRzIGxpa2UgYSBndW4uCj1zCgoKfkkgY2FuIHRha2UgeW91IHRvIGRlc3Rp
+bmF0aW9ucyw8YnI+dW5yZWFjaGFibGUgdG8gbWFuLDxicj5vciBJIGNhbiB0YWtlIHlvdSB0byB3
+aGVyZSB5b3UgZmlyc3QgYmVnYW4uPGJyPkJ1dCBpZiB5b3UgdHVtYmxlIG9yIGxhY2sgdGhlIHN0
+cmVuZ3RoLCA8YnI+dGhlbiBJIG1heSBqdXN0IHNob3J0ZW4geW91ciBsaWZlJ3MgbGVuZ3RoLgo9
+bGFkZGVyCgoKfkkgd2FzIGJvcm4gYSBjb21tb25lciwgdGhlIGxlYXN0LXZhbHVlZCBvZiBhbGws
+PGJyPldhciBhZnRlciB3YXIsIEkgaGF2ZSBzZWVuIHVzIGFsbCBmYWxsLDxicj5TbyBmYXIgZnJv
+bSByYW5rLCB3ZSBhbGwgYXdhaXQgdGhlIGNhbGwsPGJyPkkgYW0gbm93IHRoZSBtb3N0IHBvd2Vy
+ZnVsIG9mIGFsbC4KPXBhd24KCgp+SSBjYW4gc2hhdmUgZXZlcnkgZGF5LCBidXQgbXkgYmVhcmQg
+c3RheXMgdGhlIHNhbWUuIFdobyBhbSBJPwo9YmFyYmVy
