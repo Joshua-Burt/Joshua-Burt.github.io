@@ -63,6 +63,7 @@
 			constructor(x,y,colour) {
 				this.x = x;
 				this.y = y;
+				this.hole = -1;
 				this.radius = 25;
 				this.colour = colour;
 				this.speedX = 0;
@@ -198,7 +199,7 @@
             let peg = checkPegCollision();
 			if(peg != null) {
                 coin.speedY = -coin.speedY * bounciness;
-				coin.speedX = (coin.x - peg.x) / 30 * bounciness;
+				coin.speedX = (coin.x - peg.x) / 30 * bounciness - friction;
 			}
 
 			checkWallCollision();

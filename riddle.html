@@ -85,7 +85,7 @@
                 document.getElementById("riddle").innerHTML = currentRiddle.riddle;
 
 				let lastRiddle = riddles[lastRiddleNumber];
-                document.getElementById("last").innerHTML = "<h3>Last week's riddle & answer:</h3><br><i>" + lastRiddle.riddle + "</i><br>" + "<b>" + lastRiddle.answer + "</b>";
+                document.getElementById("last").innerHTML = "<h3>Last week's riddle & answer:</h3><br><i>" + lastRiddle.riddle + "</i><br>" + "<b>" + antiCipher(lastRiddle.answer) + "</b>";
             }
         });
 
@@ -100,7 +100,7 @@
             for(let i = 0; i < lines.length; i++) {
                 if(lines[i].includes("~")) {
                     let riddle = lines[i].substr(1);
-                    let answer = lines[i + 1].substr(1).trim();
+                    let answer = btoa(lines[i + 1].substr(1).trim());
 
                     i += 1;
 
@@ -115,7 +115,7 @@
             let userAnswer = document.getElementById("answer").value;
 
             if(userAnswer.length > 0) {
-                if(equalsIgnoringCase(userAnswer.trim(), currentRiddle.answer)) {
+                if(equalsIgnoringCase(userAnswer.trim(), antiCipher(currentRiddle.answer))) {
 					document.body.style.backgroundColor = 'rgb(' + [85,228,47].join(",") + ')';
 					document.getElementById("result").style.display = "inline-block";
 					document.getElementById("result").innerHTML = "Nice job! Go and write your name on the board! :D"
