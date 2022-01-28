@@ -62,12 +62,7 @@
         };
 
         function getRiddleNumber() {
-            let timestamp = new Date().getWeekNumber();
-
-            // Starting week number value
-            let startWeek = 24;
-
-            return timestamp - startWeek;
+			return new Date().getWeekNumber();
         }
 
         fetch("rotw/riddles.txt")
@@ -123,6 +118,7 @@
 					document.body.style.backgroundColor = 'rgb(' + [224,74,74].join(",") + ')';
 					document.getElementById("result").style.display = "inline-block";
 					document.getElementById("result").innerHTML = "Incorrect! Try again :)"
+					$( "#riddleBox" ).effect( "shake" );
                 }
             }
         }
@@ -130,17 +126,18 @@
         function antiCipher(inputStr) {
             return atob(inputStr);
         }
+        </script>
 
-    </script>
+        <div id="riddleBox">
+            <h2 id="riddle" class="unselectable">Question</h2>
+            <label for="answer">Answer:</label>
+            <br>
+            <input type="text" id="answer"/>
+            <p>
+            <button type="submit" onclick="checkAnswer()">Submit</button>
 
-        <h2 id="riddle" class="unselectable">Question</h2>
-        <label for="answer">Answer:</label>
-        <br>
-        <input type="text" id="answer"/>
-        <p>
-        <button type="submit" onclick="checkAnswer()">Submit</button>
-
-        <div id="result" style="display: none"></div>
+            <div id="result" style="display: none"></div>
+        </div>
     </div>
 
     <div id="last">
