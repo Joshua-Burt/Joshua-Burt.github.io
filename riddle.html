@@ -8,6 +8,7 @@
     <title>Riddle of the Week</title>
     <link rel="stylesheet" href="stylesheet.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js" defer></script>
+    <script src="http://code.jquery.com/ui/1.13.1/jquery-ui.js" defer></script>
     <link rel="shortcut icon" type="image/x-icon" href="rotw/favicon.ico"/>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -118,7 +119,7 @@
 					document.body.style.backgroundColor = 'rgb(' + [224,74,74].join(",") + ')';
 					document.getElementById("result").style.display = "inline-block";
 					document.getElementById("result").innerHTML = "Incorrect! Try again :)"
-					$( "#riddleBox" ).effect( "shake" );
+					$( "#answerBox" ).effect("shake", {times:2, distance:10});
                 }
             }
         }
@@ -130,9 +131,11 @@
 
         <div id="riddleBox">
             <h2 id="riddle" class="unselectable">Question</h2>
-            <label for="answer">Answer:</label>
-            <br>
-            <input type="text" id="answer"/>
+            <div id="answerBox">
+                <label for="answer">Answer:</label>
+                <br>
+                <input type="text" id="answer"/>
+            </div>
             <p>
             <button type="submit" onclick="checkAnswer()">Submit</button>
 
