@@ -13,8 +13,13 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <style>
-        body {
+        .fast {
             transition: background-color 80ms cubic-bezier(1, 1, 1, 1);
+            transition-delay: 0s;
+        }
+
+        .slow {
+            transition: background-color 750ms cubic-bezier(1, 1, 1, 1);
             transition-delay: 0s;
         }
 
@@ -42,7 +47,7 @@
         }
     </style>
 </head>
-<body>
+<body class="fast">
     <div class="center">
     <script>
         let riddles;
@@ -111,6 +116,7 @@
             let userAnswer = document.getElementById("answer").value;
 
             if(userAnswer.length > 0) {
+                document.body.className = "fast";
                 if(equalsIgnoringCase(userAnswer.trim(), antiCipher(currentRiddle.answer))) {
 					document.body.style.backgroundColor = 'rgb(' + [85,228,47].join(",") + ')';
 					document.getElementById("result").style.display = "inline-block";
@@ -120,6 +126,11 @@
 					document.getElementById("result").style.display = "inline-block";
 					document.getElementById("result").innerHTML = "Incorrect! Try again :)"
 					$( "#answerBox" ).effect("shake", {times:2, distance:10});
+
+                    setTimeout(() => {
+                        document.body.className = "slow";
+                        document.body.style.backgroundColor = 'rgb(' + [233,233,233].join(",") + ')';
+                    }, 500);
                 }
             }
         }
@@ -150,7 +161,7 @@
     <div id="rick" class="footer">
         <a href="rotw/riddleanswers.html" target="_blank">Riddle Answers: NOT FOR NINJA EYES</a>
         <p>
-            <a href="https://joshuaburt.dev/rotw/riddles.txt" target="_blank" style="color: #c1c1c1">
+            <a href="https://joshuaburt.dev/rotw/riddles.txt" target="_blank" style="color: #888888">
                 Just kidding, here are the real answers. Good luck trying to read them :)
             </a>
         </p>
