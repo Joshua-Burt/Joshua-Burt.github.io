@@ -17,6 +17,7 @@
     <canvas id="canvas" width="500" height="500"></canvas>
 
     <script>
+
         let canvas = document.querySelector("#canvas");
         let ctx = canvas.getContext("2d");
         let showClosestBoids = false;
@@ -60,21 +61,22 @@
             ctx.fillStyle = "#FFFFFF";
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+			if(boids.length > 1) {
+				findCollisions();
+			}
+
             for(let i = 0; i < boids.length; i++) {
 				findNewPosition(boids[i]);
 				drawPolygon(boids[i].x, boids[i].y, 3, height, strokeWidth, strokeColor, boids[i].color, boids[i].dir);
 				ctx.lineWidth = 1;
+
 				if(showClosestBoids) {
-					ctx.beginPath();
-
 					for(let j = 0; j < boids[i].closestBoids.length; j++) {
-						if(boids[i].closestDist < visualRange && regDistance(boids[i].x, boids[i].y, boids[i].closestBoids[j].x, boids[i].closestBoids[j].y) < visualRange) {
-							ctx.moveTo(boids[i].x, boids[i].y);
-							ctx.lineTo(boids[i].closestBoids[j].x, boids[i].closestBoids[j].y);
-						}
+						ctx.beginPath();
+                        ctx.moveTo(boids[i].x, boids[i].y);
+                        ctx.lineTo(boids[i].closestBoids[j].x, boids[i].closestBoids[j].y);
+						ctx.stroke();
 					}
-
-					ctx.stroke();
 				}
 
 				if(showVisualCircle) {
@@ -85,16 +87,50 @@
 			}
         }
 
+        function findCollisions() {
+			let sortedBoids = boids.sort(compare);
+
+			for(let i = 0; i < sortedBoids.length - 1; i++) {
+				let offset = 1;
+				let sortedBoid1 = sortedBoids[i];
+				let sortedBoid2 = sortedBoids[i + offset];
+
+				while(sortedBoid2.x <= sortedBoid1.x + visualRange) {
+					sortedBoid2 = sortedBoids[i + offset];
+                	sortedBoid1.closestBoids[sortedBoid1.closestBoids.length] = sortedBoid2;
+					sortedBoid2.closestBoids[sortedBoid2.closestBoids.length] = sortedBoid1;
+
+					if(i + offset + 1 >= sortedBoids.length) {
+						break;
+					}
+
+					offset++;
+                }
+            }
+		}
+
+		function compare(a, b) {
+			if (a.x <= b.x){
+				return -1;
+			}
+			if (a.x > b.x){
+				return 1;
+			}
+			return 0;
+		}
+
         function findNewPosition(boid) {
             let radianDir = boid.dir * Math.PI/180;
 
             let dx = boid.x + boid.speed * (Math.cos(radianDir));
             let dy = boid.y + boid.speed * (Math.sin(radianDir));
 
-            let closestBoids = getClosestBoids(boid);
-            boid.setClosestBoids(closestBoids);
+            // let closestBoids = getClosestBoids(boid);
+            // boid.setClosestBoids(closestBoids);
 
-            let avgDir = 0;
+			const closestBoids = boid.closestBoids;
+
+			let avgDir = 0;
             let avgSpeed = 0;
             for(let i = 0; i < closestBoids.length; i++) {
 				avgDir += closestBoids[i].dir;
@@ -154,35 +190,35 @@
             boid.setY(dy);
         }
 
-        function getClosestBoids(boid) {
-			let closestBoids = [];
-			let closestDist = [99999, 99999, 99999];
-
-			for(let i = 0; i < boids.length; i++) {
-				if(boids[i] !== boid) {
-
-					let distance = toroidalDistance(boid.x, boid.y, boids[i].x, boids[i].y);
-
-					for(let j = 0; j < 3; j++) {
-						if(distance < closestDist[j]) {
-							closestBoids[j] = boids[i];
-							closestDist[j] = distance;
-							boid.setClosestDist(Math.min(closestDist[0], closestDist[1], closestDist[2]));
-							break;
-						}
-					}
-				}
-			}
-
-			if(closestBoids[0] != null && closestBoids[1] != null) {
-				return closestBoids;
-			} else if(closestBoids[1] == null) {
-                return [closestBoids[0], boid];
-		    } else {
-            	boid.setClosestDist(0);
-            	return [boid, boid];
-            }
-        }
+        // function getClosestBoids(boid) {
+		// 	let closestBoids = [];
+		// 	let closestDist = [99999, 99999, 99999];
+        //
+		// 	for(let i = 0; i < boids.length; i++) {
+		// 		if(boids[i] !== boid) {
+        //
+		// 			let distance = toroidalDistance(boid.x, boid.y, boids[i].x, boids[i].y);
+        //
+		// 			for(let j = 0; j < 3; j++) {
+		// 				if(distance < closestDist[j]) {
+		// 					closestBoids[j] = boids[i];
+		// 					closestDist[j] = distance;
+		// 					boid.setClosestDist(Math.min(closestDist[0], closestDist[1], closestDist[2]));
+		// 					break;
+		// 				}
+		// 			}
+		// 		}
+		// 	}
+        //
+		// 	if(closestBoids[0] != null && closestBoids[1] != null) {
+		// 		return closestBoids;
+		// 	} else if(closestBoids[1] == null) {
+        //         return [closestBoids[0], boid];
+		//     } else {
+        //     	boid.setClosestDist(0);
+        //     	return [boid, boid];
+        //     }
+        // }
 
         // https://stackoverflow.com/questions/2123947/calculate-distance-between-two-x-y-coordinates
 		function toroidalDistance (x1,y1,x2,y2) {
