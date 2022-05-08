@@ -59,6 +59,8 @@
             }
         }
 
+
+        // Returns the current week number
         Date.prototype.getWeekNumber = function(){
             let d = new Date(Date.UTC(this.getFullYear(), this.getMonth(), this.getDate()));
             let dayNum = d.getUTCDay() || 7;
