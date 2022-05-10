@@ -23,6 +23,11 @@
             transition-delay: 0s;
         }
 
+        .blur {
+            color: transparent;
+            text-shadow: 0 0 5px rgba(0,0,0,0.5);
+        }
+
         a:link, a:visited {
             color: red;
             background-color: transparent;
@@ -77,7 +82,7 @@
         fetch("rotw/riddles.txt")
         .then(response => response.text())
         .then(data => {
-            let input = antiSecretCipher(atob(data));
+            let input = antiCipher(atob(data));
             riddles = parseRiddles(input);
 
             let riddleNumber = getRiddleNumber();
@@ -125,12 +130,14 @@
                 if(equalsIgnoringCase(userAnswer.trim(), atob(currentRiddle.answer))) {
 					document.body.style.backgroundColor = 'rgb(' + [85,228,47].join(",") + ')';
 					document.getElementById("result").style.display = "inline-block";
-					document.getElementById("result").innerHTML = "Nice job! Go and write your name on the board! :D"
+					document.getElementById("result").innerHTML = "Nice job! Go and write your name on the board! :D<br>Don't spoil the answer!";
+                    document.getElementById("answer").className = "blur";
                 } else {
 					document.body.style.backgroundColor = 'rgb(' + [224,74,74].join(",") + ')';
 					document.getElementById("result").style.display = "inline-block";
-					document.getElementById("result").innerHTML = "Incorrect! Try again :)"
+					document.getElementById("result").innerHTML = "Incorrect! Try again :)";
 					$( "#answerBox" ).effect("shake", {times:2, distance:10});
+					document.getElementById("answer").className = "";
 
                     setTimeout(() => {
                         document.body.className = "slow";
@@ -140,7 +147,7 @@
             }
         }
 
-        function antiSecretCipher(inputStr) {
+        function antiCipher(inputStr) {
 			let values = "";
 			let tokens = inputStr.split(" ");
 
