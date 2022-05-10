@@ -89,7 +89,7 @@
                 document.getElementById("riddle").innerHTML = currentRiddle.riddle;
 
 				let lastRiddle = riddles[lastRiddleNumber];
-                document.getElementById("last").innerHTML = "<h3>Last week's riddle & answer:</h3><br><i>" + lastRiddle.riddle + "</i><br>" + "<b>" + antiSecretCipher(lastRiddle.answer) + "</b>";
+                document.getElementById("last").innerHTML = "<h3>Last week's riddle & answer:</h3><br><i>" + lastRiddle.riddle + "</i><br>" + "<b>" + atob(lastRiddle.answer) + "</b>";
             }
         });
 
@@ -122,7 +122,7 @@
 
             if(userAnswer.length > 0) {
                 document.body.className = "fast";
-                if(equalsIgnoringCase(userAnswer.trim(), antiSecretCipher(currentRiddle.answer))) {
+                if(equalsIgnoringCase(userAnswer.trim(), atob(currentRiddle.answer))) {
 					document.body.style.backgroundColor = 'rgb(' + [85,228,47].join(",") + ')';
 					document.getElementById("result").style.display = "inline-block";
 					document.getElementById("result").innerHTML = "Nice job! Go and write your name on the board! :D"
