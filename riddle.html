@@ -73,10 +73,11 @@
 			return new Date().getWeekNumber();
         }
 
+        // Get file containing the riddle questions and answers
         fetch("rotw/riddles.txt")
         .then(response => response.text())
         .then(data => {
-            let input = antiCipher(data);
+            let input = antiSecretCipher(atob(data));
             riddles = parseRiddles(input);
 
             let riddleNumber = getRiddleNumber();
@@ -88,7 +89,7 @@
                 document.getElementById("riddle").innerHTML = currentRiddle.riddle;
 
 				let lastRiddle = riddles[lastRiddleNumber];
-                document.getElementById("last").innerHTML = "<h3>Last week's riddle & answer:</h3><br><i>" + lastRiddle.riddle + "</i><br>" + "<b>" + antiCipher(lastRiddle.answer) + "</b>";
+                document.getElementById("last").innerHTML = "<h3>Last week's riddle & answer:</h3><br><i>" + lastRiddle.riddle + "</i><br>" + "<b>" + antiSecretCipher(lastRiddle.answer) + "</b>";
             }
         });
 
@@ -97,6 +98,7 @@
 		}
 
 
+		// Take the unencrypted riddles and parse the questions and answers into objects
         function parseRiddles(data) {
             let riddles = [];
             let lines = data.split("\n");
@@ -114,12 +116,13 @@
             return riddles;
         }
 
+        // Confirm if the user has gotten the correct answer and display it
         function checkAnswer() {
             let userAnswer = document.getElementById("answer").value;
 
             if(userAnswer.length > 0) {
                 document.body.className = "fast";
-                if(equalsIgnoringCase(userAnswer.trim(), antiCipher(currentRiddle.answer))) {
+                if(equalsIgnoringCase(userAnswer.trim(), antiSecretCipher(currentRiddle.answer))) {
 					document.body.style.backgroundColor = 'rgb(' + [85,228,47].join(",") + ')';
 					document.getElementById("result").style.display = "inline-block";
 					document.getElementById("result").innerHTML = "Nice job! Go and write your name on the board! :D"
@@ -137,8 +140,15 @@
             }
         }
 
-        function antiCipher(inputStr) {
-            return atob(inputStr);
+        function antiSecretCipher(inputStr) {
+			let values = "";
+			let tokens = inputStr.split(" ");
+
+			for(let i = 0; i < tokens.length; i++) {
+				values += String.fromCharCode(parseInt(tokens[i]));
+			}
+
+            return values;
         }
         </script>
 

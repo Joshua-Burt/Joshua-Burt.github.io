@@ -95,13 +95,25 @@
             return string;
         }
 
-        function cipher(inputStr) {
-            return btoa(inputStr);
-        }
+		function cipher(inputStr) {
+			let values = "";
+			for(let i = 0; i < inputStr.length; i++) {
+				values += inputStr.charCodeAt(i) + " ";
+			}
 
-        function antiCipher(inputStr) {
-            return atob(inputStr);
-        }
+			return btoa(values.trimEnd());
+		}
+
+		function antiCipher(inputStr) {
+			let values = "";
+			let tokens = atob(inputStr).split(" ");
+
+			for(let i = 0; i < tokens.length; i++) {
+				values += String.fromCharCode(parseInt(tokens[i]));
+			}
+
+			return values;
+		}
     </script>
 
     <div id="riddleBox">
