@@ -14,337 +14,301 @@
     </style>
 </head>
 <body>
-    <canvas id="canvas" width="500" height="500"></canvas>
+<canvas id="canvas" width="500" height="500"></canvas>
 
-    <script>
+<script>
+    let canvas = document.querySelector("#canvas");
+    let ctx = canvas.getContext("2d");
+    let showClosestBoids = false;
+    let showVisualCircle = false;
+    let boids = [];
+    let visualRange = 50;
+    let maxBoids = 300;
+    ctx.canvas.width  = window.innerWidth;
+    ctx.canvas.height = window.innerHeight - 30;
 
-        let canvas = document.querySelector("#canvas");
-        let ctx = canvas.getContext("2d");
-        let showClosestBoids = false;
-        let showVisualCircle = false;
-		let boids = [];
-		let visualRange = 50;
-		let maxBoids = 300;
-        ctx.canvas.width  = window.innerWidth;
-        ctx.canvas.height = window.innerHeight - 30;
-
-        // Defaults
-        const height = 3;
-        const strokeWidth = 3;
-        const strokeColor = 'black';
-        const MAX_SPEED = 5;
-        const MIN_SPEED = 1;
-        const COLORS = ['black', 'yellow', 'red', 'blue'];
-
+    // Defaults
+    const height = 3;
+    const strokeWidth = 3;
+    const strokeColor = 'black';
+    const MAX_SPEED = 5;
+    const MIN_SPEED = 1;
+    const COLORS = ['black', 'yellow', 'red', 'blue'];
 
 
-        let clicked = false;
-        let sel = $('#canvas');
 
-        sel.mousedown(function (mouseEvent) {
-            addBoid(mouseEvent.pageX, mouseEvent.pageY, (Math.random() * 360), Math.random() * MAX_SPEED + MIN_SPEED, "yellow");
-            clicked = true;
-        });
+    let clicked = false;
+    let sel = $('#canvas');
 
-        sel.mousemove(function(mouseEvent) {
-            if(clicked) {
-                addBoid(mouseEvent.pageX, mouseEvent.pageY, (Math.random() * 360), Math.ceil(Math.random() * MAX_SPEED + MIN_SPEED), COLORS[Math.floor(Math.random() * 3.9)]);
-            }
-        });
+    sel.mousedown(function (mouseEvent) {
+        addBoid(mouseEvent.pageX, mouseEvent.pageY, (Math.random() * 360), Math.random() * MAX_SPEED + MIN_SPEED, "yellow");
+        clicked = true;
+    });
 
-        sel.mouseup(function () { clicked = false; });
+    sel.mousemove(function(mouseEvent) {
+        if(clicked) {
+            addBoid(mouseEvent.pageX, mouseEvent.pageY, (Math.random() * 360), Math.ceil(Math.random() * MAX_SPEED + MIN_SPEED), COLORS[Math.floor(Math.random() * 3.9)]);
+        }
+    });
 
-        let interval = setInterval(draw, 10);
+    sel.mouseup(function () { clicked = false; });
 
-        function draw() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = "#FFFFFF";
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
+    let interval = setInterval(draw, 10);
 
-			if(boids.length > 1) {
-				findCollisions();
-			}
+    function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = "#FFFFFF";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            for(let i = 0; i < boids.length; i++) {
-				findNewPosition(boids[i]);
-				drawPolygon(boids[i].x, boids[i].y, 3, height, strokeWidth, strokeColor, boids[i].color, boids[i].dir);
-				ctx.lineWidth = 1;
+        for(let i = 0; i < boids.length; i++) {
+            findNewPosition(boids[i]);
+            drawPolygon(boids[i].x, boids[i].y, 3, height, strokeWidth, strokeColor, boids[i].color, boids[i].dir);
+            ctx.lineWidth = 1;
+            if(showClosestBoids) {
+                ctx.beginPath();
 
-				if(showClosestBoids) {
-					for(let j = 0; j < boids[i].closestBoids.length; j++) {
-						ctx.beginPath();
+                for(let j = 0; j < boids[i].closestBoids.length; j++) {
+                    if(boids[i].closestDist < visualRange && regDistance(boids[i].x, boids[i].y, boids[i].closestBoids[j].x, boids[i].closestBoids[j].y) < visualRange) {
                         ctx.moveTo(boids[i].x, boids[i].y);
                         ctx.lineTo(boids[i].closestBoids[j].x, boids[i].closestBoids[j].y);
-						ctx.stroke();
-					}
-				}
-
-				if(showVisualCircle) {
-					ctx.beginPath();
-					ctx.arc(boids[i].x, boids[i].y, visualRange, 0, 2 * Math.PI);
-					ctx.stroke();
+                    }
                 }
-			}
-        }
 
-        function findCollisions() {
-			let sortedBoids = boids.sort(compare);
-
-			for(let i = 0; i < sortedBoids.length - 1; i++) {
-				let offset = 1;
-				let sortedBoid1 = sortedBoids[i];
-				let sortedBoid2 = sortedBoids[i + offset];
-
-				while(sortedBoid2.x <= sortedBoid1.x + visualRange) {
-					sortedBoid2 = sortedBoids[i + offset];
-                	sortedBoid1.closestBoids[sortedBoid1.closestBoids.length] = sortedBoid2;
-					sortedBoid2.closestBoids[sortedBoid2.closestBoids.length] = sortedBoid1;
-
-					if(i + offset + 1 >= sortedBoids.length) {
-						break;
-					}
-
-					offset++;
-                }
+                ctx.stroke();
             }
-		}
 
-		function compare(a, b) {
-			if (a.x <= b.x){
-				return -1;
-			}
-			if (a.x > b.x){
-				return 1;
-			}
-			return 0;
-		}
+            if(showVisualCircle) {
+                ctx.beginPath();
+                ctx.arc(boids[i].x, boids[i].y, visualRange, 0, 2 * Math.PI);
+                ctx.stroke();
+            }
+        }
+    }
 
-        function findNewPosition(boid) {
-            let radianDir = boid.dir * Math.PI/180;
+    function findNewPosition(boid) {
+        let radianDir = boid.dir * Math.PI/180;
 
-            let dx = boid.x + boid.speed * (Math.cos(radianDir));
-            let dy = boid.y + boid.speed * (Math.sin(radianDir));
+        let dx = boid.x + boid.speed * (Math.cos(radianDir));
+        let dy = boid.y + boid.speed * (Math.sin(radianDir));
 
-            // let closestBoids = getClosestBoids(boid);
-            // boid.setClosestBoids(closestBoids);
+        let closestBoids = getClosestBoids(boid);
+        boid.setClosestBoids(closestBoids);
 
-			const closestBoids = boid.closestBoids;
+        let avgDir = 0;
+        let avgSpeed = 0;
+        for(let i = 0; i < closestBoids.length; i++) {
+            avgDir += closestBoids[i].dir;
+            avgSpeed += closestBoids[i].speed;
+        }
+        avgSpeed += boid.speed;
+        avgSpeed /= closestBoids.length + 1;
 
-			let avgDir = 0;
-            let avgSpeed = 0;
-            for(let i = 0; i < closestBoids.length; i++) {
-				avgDir += closestBoids[i].dir;
-				avgSpeed += closestBoids[i].speed;
-			}
-            avgSpeed += boid.speed;
-            avgSpeed /= closestBoids.length + 1;
+        avgDir += boid.dir;
+        avgDir /= closestBoids.length + 1;
 
-            avgDir += boid.dir;
-            avgDir /= closestBoids.length + 1;
+        let valDir;
 
-            let valDir;
+        if(boid.closestDist < visualRange && boid.closestDist > 10) {
 
-            if(boid.closestDist < visualRange && boid.closestDist > 10) {
-
-				if (Math.abs(boid.dir - avgDir) <= 180) {
-					// Rotate current directly towards target.
-					if (boid.dir < avgDir) {
-						valDir = 1;
-					} else  {
-						valDir = -1;
-					}
-				} else {
-					// Rotate the other direction towards target.
-					if (boid.dir < avgDir) {
-						valDir = -1;
-					} else {
-						valDir = 1;
-					}
-				}
-
-
-                if(boid.speed - avgSpeed > 0 && boid.speed > MIN_SPEED + 1) {
-                    boid.setSpeed(boid.speed - 0.01);
-                } else if(boid.speed - avgSpeed < 0 && boid.speed < MAX_SPEED) {
-                    boid.setSpeed(boid.speed + 0.01);
+            if (Math.abs(boid.dir - avgDir) <= 180) {
+                // Rotate current directly towards target.
+                if (boid.dir < avgDir) {
+                    valDir = 1;
+                } else  {
+                    valDir = -1;
                 }
             } else {
-                valDir = Math.random() * 6 - 3;
+                // Rotate the other direction towards target.
+                if (boid.dir < avgDir) {
+                    valDir = -1;
+                } else {
+                    valDir = 1;
+                }
             }
 
-            boid.setDir(boid.dir + valDir);
 
-            if(boid.dir < 0) {
-                boid.setDir(360 + boid.dir);
-            } else if(boid.dir > 360) {
-                boid.setDir(boid.dir - 360);
+            if(boid.speed - avgSpeed > 0 && boid.speed > MIN_SPEED + 1) {
+                boid.setSpeed(boid.speed - 0.01);
+            } else if(boid.speed - avgSpeed < 0 && boid.speed < MAX_SPEED) {
+                boid.setSpeed(boid.speed + 0.01);
             }
-
-            if(boid.x > ctx.canvas.width) { dx = 0 }
-            else if(boid.x < 0) { dx = ctx.canvas.width }
-
-            if(boid.y > ctx.canvas.height) { dy = 0 }
-            else if(boid.y < 0) { dy = ctx.canvas.height }
-
-            boid.setX(dx);
-            boid.setY(dy);
+        } else {
+            valDir = Math.random() * 6 - 3;
         }
 
-        // function getClosestBoids(boid) {
-		// 	let closestBoids = [];
-		// 	let closestDist = [99999, 99999, 99999];
-        //
-		// 	for(let i = 0; i < boids.length; i++) {
-		// 		if(boids[i] !== boid) {
-        //
-		// 			let distance = toroidalDistance(boid.x, boid.y, boids[i].x, boids[i].y);
-        //
-		// 			for(let j = 0; j < 3; j++) {
-		// 				if(distance < closestDist[j]) {
-		// 					closestBoids[j] = boids[i];
-		// 					closestDist[j] = distance;
-		// 					boid.setClosestDist(Math.min(closestDist[0], closestDist[1], closestDist[2]));
-		// 					break;
-		// 				}
-		// 			}
-		// 		}
-		// 	}
-        //
-		// 	if(closestBoids[0] != null && closestBoids[1] != null) {
-		// 		return closestBoids;
-		// 	} else if(closestBoids[1] == null) {
-        //         return [closestBoids[0], boid];
-		//     } else {
-        //     	boid.setClosestDist(0);
-        //     	return [boid, boid];
-        //     }
-        // }
+        boid.setDir(boid.dir + valDir);
 
-        // https://stackoverflow.com/questions/2123947/calculate-distance-between-two-x-y-coordinates
-		function toroidalDistance (x1,y1,x2,y2) {
-			return Math.sqrt(Math.pow(Math.min(Math.abs(x1 - x2), ctx.canvas.width - Math.abs(x1 - x2)), 2) + Math.pow(Math.min(Math.abs(y1 - y2), ctx.canvas.height - Math.abs(y1 - y2)),2));
-		}
-
-		function regDistance(x1,y1,x2,y2) {
-			let a = x1 - x2;
-			let b = y1 - y2;
-			return Math.hypot(a, b);
+        if(boid.dir < 0) {
+            boid.setDir(360 + boid.dir);
+        } else if(boid.dir > 360) {
+            boid.setDir(boid.dir - 360);
         }
 
-        function addBoid(x,y,dir,speed,color) {
-        	if(boids.length < maxBoids) {
-				boids.push(new Boid(x, y, dir, speed, color, 0));
-            }
-       	}
+        if(boid.x > ctx.canvas.width) { dx = 0 }
+        else if(boid.x < 0) { dx = ctx.canvas.width }
 
-        function deleteBoid() {
-            boids.pop();
+        if(boid.y > ctx.canvas.height) { dy = 0 }
+        else if(boid.y < 0) { dy = ctx.canvas.height }
+
+        boid.setX(dx);
+        boid.setY(dy);
+    }
+
+    function getClosestBoids(boid) {
+        let closestBoids = [];
+        let closestDist = [99999, 99999, 99999];
+
+        for(let i = 0; i < boids.length; i++) {
+            if(boids[i] !== boid) {
+
+                let distance = toroidalDistance(boid.x, boid.y, boids[i].x, boids[i].y);
+
+                for(let j = 0; j < 3; j++) {
+                    if(distance < closestDist[j]) {
+                        closestBoids[j] = boids[i];
+                        closestDist[j] = distance;
+                        boid.setClosestDist(Math.min(closestDist[0], closestDist[1], closestDist[2]));
+                        break;
+                    }
+                }
+            }
         }
 
-        // https://stackoverflow.com/questions/38238282/how-to-rotate-a-triangle-without-rotating-the-entire-canvas
-        function drawPolygon(centerX,centerY,sideCount,size,strokeWidth,strokeColor,fillColor,degrees){
-            let radians=(degrees)*Math.PI/180;
-            ctx.translate(centerX,centerY);
-            ctx.rotate(radians);
-            ctx.beginPath();
-            ctx.moveTo (size * Math.cos(0), size * Math.sin(0));
-            for (let i = 1; i <= sideCount;i += 1) {
-                ctx.lineTo (size * Math.cos(i * 2 * Math.PI / sideCount), size * Math.sin(i * 2 * Math.PI / sideCount));
-            }
-            ctx.closePath();
-            ctx.fillStyle=fillColor;
-            ctx.strokeStyle = strokeColor;
-            ctx.lineWidth = strokeWidth;
-            ctx.stroke();
-            ctx.fill();
-            ctx.rotate(-radians);
-            ctx.translate(-centerX,-centerY);
+        if(closestBoids[0] != null && closestBoids[1] != null) {
+            return closestBoids;
+        } else if(closestBoids[1] == null) {
+            return [closestBoids[0], boid];
+        } else {
+            boid.setClosestDist(0);
+            return [boid, boid];
+        }
+    }
+
+    // https://stackoverflow.com/questions/2123947/calculate-distance-between-two-x-y-coordinates
+    function toroidalDistance (x1,y1,x2,y2) {
+        return Math.sqrt(Math.pow(Math.min(Math.abs(x1 - x2), ctx.canvas.width - Math.abs(x1 - x2)), 2) + Math.pow(Math.min(Math.abs(y1 - y2), ctx.canvas.height - Math.abs(y1 - y2)),2));
+    }
+
+    function regDistance(x1,y1,x2,y2) {
+        let a = x1 - x2;
+        let b = y1 - y2;
+        return Math.hypot(a, b);
+    }
+
+    function addBoid(x,y,dir,speed,color) {
+        if(boids.length < maxBoids) {
+            boids.push(new Boid(x, y, dir, speed, color, 0));
+        }
+    }
+
+    function deleteBoid() {
+        boids.pop();
+    }
+
+    // https://stackoverflow.com/questions/38238282/how-to-rotate-a-triangle-without-rotating-the-entire-canvas
+    function drawPolygon(centerX,centerY,sideCount,size,strokeWidth,strokeColor,fillColor,degrees){
+        let radians=(degrees)*Math.PI/180;
+        ctx.translate(centerX,centerY);
+        ctx.rotate(radians);
+        ctx.beginPath();
+        ctx.moveTo (size * Math.cos(0), size * Math.sin(0));
+        for (let i = 1; i <= sideCount;i += 1) {
+            ctx.lineTo (size * Math.cos(i * 2 * Math.PI / sideCount), size * Math.sin(i * 2 * Math.PI / sideCount));
+        }
+        ctx.closePath();
+        ctx.fillStyle=fillColor;
+        ctx.strokeStyle = strokeColor;
+        ctx.lineWidth = strokeWidth;
+        ctx.stroke();
+        ctx.fill();
+        ctx.rotate(-radians);
+        ctx.translate(-centerX,-centerY);
+    }
+
+    function toggleShowClosestBoid() {
+        showClosestBoids = !showClosestBoids;
+    }
+
+    function toggleShowCircle() {
+        showVisualCircle = !showVisualCircle;
+    }
+
+    function updateVisualRange() {
+        visualRange = document.getElementById("visual").value;
+    }
+
+    function updateMaxBoids() {
+        maxBoids = document.getElementById("maxBoids").value;
+        while(boids.length > maxBoids) {
+            deleteBoid();
+        }
+    }
+
+    function reset() {
+        boids = [];
+    }
+
+    class Boid {
+        closestBoids = [];
+        closestDists = [];
+
+        constructor(x,y,dir,speed,color,closestDist) {
+            this.x = x;
+            this.y = y;
+            this.dir = dir;
+            this.speed = speed;
+            this.color = color;
+            this.closestDist = closestDist;
         }
 
-        function toggleShowClosestBoid() {
-        	showClosestBoids = !showClosestBoids;
+        setX(x) {
+            this.x = x;
         }
 
-		function toggleShowCircle() {
-			showVisualCircle = !showVisualCircle;
-		}
-
-		function updateVisualRange() {
-        	visualRange = document.getElementById("visual").value;
+        setY(y) {
+            this.y = y;
         }
 
-		function updateMaxBoids() {
-			maxBoids = document.getElementById("maxBoids").value;
-			while(boids.length > maxBoids) {
-				deleteBoid();
-            }
-		}
-
-		function reset() {
-        	boids = [];
+        setDir(dir) {
+            this.dir = dir;
         }
 
-        class Boid {
-        	closestBoids = [];
-        	closestDists = [];
-
-            constructor(x,y,dir,speed,color,closestDist) {
-                this.x = x;
-                this.y = y;
-                this.dir = dir;
-                this.speed = speed;
-                this.color = color;
-                this.closestDist = closestDist;
-            }
-
-            setX(x) {
-				this.x = x;
-			}
-
-            setY(y) {
-                this.y = y;
-            }
-
-            setDir(dir) {
-                this.dir = dir;
-            }
-
-			setSpeed(value) {
-				this.speed = value;
-			}
-
-			setClosestBoids(closestBoids) {
-            	this.closestBoids = closestBoids;
-            }
-
-            setClosestDists(closestDists) {
-            	this.closestDists = closestDists;
-            }
-
-			setClosestDist(closestDist) {
-				this.closestDist = closestDist;
-			}
+        setSpeed(value) {
+            this.speed = value;
         }
-    </script>
 
-    <button onclick="toggleShowClosestBoid()">Show Closest Boids</button>
-    <button onclick="toggleShowCircle()">Show Visual Circle</button>
-    <button onclick="reset()">Reset</button>
-    <a href="../index.html"><button>Homepage</button></a>
+        setClosestBoids(closestBoids) {
+            this.closestBoids = closestBoids;
+        }
 
-    <label for="visual" style="border-left: 1px solid black; padding-left: 5px">Visual Range</label>
-    <input type="range" min="1" max="200" value="50" class="slider" id="visual" onchange="updateVisualRange()">
+        setClosestDists(closestDists) {
+            this.closestDists = closestDists;
+        }
 
-    <label for="maxBoids" style="border-left: 1px solid black; padding-left: 5px">Maximum Boids</label>
-    <input type="number" min="1" max="500" value="300" id="maxBoids" onchange="updateMaxBoids()">
+        setClosestDist(closestDist) {
+            this.closestDist = closestDist;
+        }
+    }
+</script>
 
-    <script>
-		let slider = document.getElementById("visual");
+<button onclick="toggleShowClosestBoid()">Show Closest Boids</button>
+<button onclick="toggleShowCircle()">Show Visual Circle</button>
+<button onclick="reset()">Reset</button>
+<a href="../index.html"><button>Homepage</button></a>
 
-		slider.oninput = function() {
-			visualRange = this.value;
-		}
-    </script>
+<label for="visual" style="border-left: 1px solid black; padding-left: 5px">Visual Range</label>
+<input type="range" min="1" max="200" value="50" class="slider" id="visual" onchange="updateVisualRange()">
+
+<label for="maxBoids" style="border-left: 1px solid black; padding-left: 5px">Maximum Boids</label>
+<input type="number" min="1" max="500" value="300" id="maxBoids" onchange="updateMaxBoids()">
+
+<script>
+    let slider = document.getElementById("visual");
+
+    slider.oninput = function() {
+        visualRange = this.value;
+    }
+</script>
 
 </body>
 </html>
