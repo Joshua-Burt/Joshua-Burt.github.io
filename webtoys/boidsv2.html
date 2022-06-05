@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Boids Version 2.0 | Joshua Burt</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="../stylesheet.css">
+    <style>
+        html, body {
+            width:  100%;
+            height: 100%;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+<canvas id="canvas" width="500" height="500"></canvas>
+
+<script>
+    let canvas = document.querySelector("#canvas");
+    let ctx = canvas.getContext("2d");
+    let showClosestBoids = false;
+    let showVisualCircle = false;
+    let clicked = false;
+    let sel = $('#canvas');
+    let boids = [];
+    let visualRange = 50;
+    let maxBoids = 300;
+    ctx.canvas.width  = window.innerWidth;
+    ctx.canvas.height = window.innerHeight - 30;
+
+    let interval = setInterval(draw, 16);
+
+    function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = "#FFFFFF";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        getPossibleCollisions();
+
+        for(let i = 0; i < boids.length; i++) {
+
+        }
+    }
+
+    sel.mousedown(function (mouseEvent) {
+        // addBoid(mouseEvent.pageX, mouseEvent.pageY, (Math.random() * 360), Math.random() * MAX_SPEED + MIN_SPEED, "yellow");
+        clicked = true;
+    });
+
+    sel.mousemove(function(mouseEvent) {
+        if(clicked) {
+            // addBoid(mouseEvent.pageX, mouseEvent.pageY, (Math.random() * 360), Math.ceil(Math.random() * MAX_SPEED + MIN_SPEED), COLORS[Math.floor(Math.random() * 3.9)]);
+        }
+    });
+
+    sel.mouseup(function () { clicked = false; });
+
+    function sortBoidsByX(group) {
+        return group.sort((a,b) => a.x - b.x);
+    }
+
+    function sortBoidsByY(group) {
+        return group.sort((a,b) => a.y - b.y);
+    }
+
+    function getPossibleCollisions() {
+        if(boids.length > 1) {
+            let sortedBoids = sortBoidsByX(boids);
+
+            let collisionGroups = [];
+            for(let i = 0; i < sortedBoids.length; i++) {
+                let group = [];
+                let o = 1;
+                group[0] = sortedBoids[i];
+
+                while(i + o < sortedBoids.length && sortedBoids[i + o].x - sortedBoids[i].x <= visualRange) {
+                    group[o] = sortedBoids[i + o];
+                    o++;
+                }
+
+                group = sortBoidsByY(group);
+
+                for(let j = group.length - 1; j > 0; j--) {
+                    if(group[j].y - group[j - 1].y > visualRange) {
+                        group.splice(j,1);
+                    }
+                }
+
+                if(group.length > 1) {
+                    collisionGroups[collisionGroups.length] = group;
+                }
+            }
+
+            return collisionGroups;
+        }
+    }
+
+    function distance(boid1, boid2) {
+        let a = boid1.x - boid2.x;
+        let b = boid1.y - boid2.y;
+        return Math.hypot(a, b);
+    }
+
+    // https://stackoverflow.com/questions/38238282/how-to-rotate-a-triangle-without-rotating-the-entire-canvas
+    function drawPolygon(centerX,centerY,sideCount,size,strokeWidth,strokeColor,fillColor,degrees){
+        let radians=(degrees)*Math.PI/180;
+        ctx.translate(centerX,centerY);
+        ctx.rotate(radians);
+        ctx.beginPath();
+        ctx.moveTo(size * Math.cos(0), size * Math.sin(0));
+
+        for (let i = 1; i <= sideCount; i += 1) {
+            ctx.lineTo (size * Math.cos(i * 2 * Math.PI / sideCount), size * Math.sin(i * 2 * Math.PI / sideCount));
+
+            if(sideCount === 3 && i === sideCount-2) {
+                ctx.lineTo(0,0);
+            }
+        }
+
+        ctx.closePath();
+        ctx.fillStyle=fillColor;
+        ctx.strokeStyle = strokeColor;
+        ctx.lineWidth = strokeWidth;
+        ctx.stroke();
+        ctx.fill();
+        ctx.rotate(-radians);
+        ctx.translate(-centerX,-centerY);
+    }
+
+    function addBoid(x,y,dir,speed,color) {
+        if(boids.length < maxBoids) {
+            boids.push(new Boid(x, y, dir, speed, color));
+        }
+    }
+
+    class Boid {
+        constructor(x, y, dir, speed, colour) {
+            this.x = x;
+            this.y = y;
+            this.dir = dir;
+            this.speed = speed;
+            this.colour = colour;
+        }
+    }
+</script>
+
+
+<button onclick="toggleShowClosestBoid()">Show Closest Boids</button>
+<button onclick="toggleShowCircle()">Show Visual Circle</button>
+<button onclick="reset()">Reset</button>
+<a href="../index.html"><button>Homepage</button></a>
+</body>
+</html>
