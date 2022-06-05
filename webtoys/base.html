@@ -73,6 +73,7 @@
         document.getElementById("base12").innerText = "Base 12: " + num.toString(12);
         document.getElementById("base16").innerText = "Base 16: " + num.toString(16);
         document.getElementById("base32").innerText = "Base 32: " + num.toString(32);
+        document.getElementById("base64").innerText = "Base 64: " + btoa(num);
     }
 </script>
 <div id="page">
@@ -96,6 +97,7 @@
                 <p id="base12">Base 12: 0</p>
                 <p id="base16">Base 16: 0</p>
                 <p id="base32">Base 32: 0</p>
+                <p id="base64">Base 64: 0</p>
             </div>
             <div style="flex-grow: 1; text-align: left; padding-left: 20px;">
                 <p>Binary</p>
