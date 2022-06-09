@@ -1,11 +1,3 @@
-// if(screen.availWidth <= 650) {
-//     document.getElementById("card").className = "rectangle-mobile";
-//     document.getElementById("pin").width = 80;
-//     document.getElementById("pin").height = 80;
-//
-//
-// }
-
 function fall() {
     let pin = document.getElementById("pin");
 
@@ -23,7 +15,7 @@ function cardFall() {
     let ySpeed = 2;
 
     $("#card").finish().animate({
-        top: "+=1000",
+        top: "+=" + screen.availHeight * 1.5,
     }, 1250, function() {
         card.style.display = "none";
     });

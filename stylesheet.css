@@ -15,13 +15,13 @@ body {
     text-align: center;
     position:absolute;
     left:50%;
-    top:500px;
+    top:400px;
     margin-top:-200px;
     margin-left:-225px;
     background: #ffffff url("imgs/cardTexture.png");
 }
 
-.torn-hold-container {
+.torn-hole-container {
     position: absolute;
     margin-left: -75px;
     z-index: -1;
@@ -46,7 +46,7 @@ html {
 .underCard {
     font-family: "Roboto", sans-serif;
     position:absolute;
-    top:310px;
+    top:200px;
     left:50%;
     z-index: 1;
     margin-left: -150px
@@ -56,7 +56,7 @@ html {
     height: 200px;
     width: 600px;
     position:absolute;
-    top:600px;
+    top:550px;
     left:50%;
     margin-left:-300px;
 }
@@ -120,11 +120,16 @@ html {
     background-color: #f1f1f1;
 }
 
-.hello {
+.card-hello {
     margin: 0;
     padding: 0;
     color: #FF0000;
     font-family: lemonMilk,Roboto,sans-serif;
+}
+
+.card-name {
+    font-family: handWritten,sans-serif;
+    white-space: nowrap;
 }
 
 .outline {
@@ -235,11 +240,24 @@ h1, h3 {
         top: 45px;
     }
 
-    .torn-hold-container {
+    .torn-hole-container {
         position: absolute;
         top:150px;
         margin-left: 0;
         z-index: -1;
+    }
+
+    .card-hello {
+        margin: 0;
+        padding: 0;
+        color: #FF0000;
+        font-family: lemonMilk,Roboto,sans-serif;
+        font-size: x-large;
+    }
+
+    .card-name {
+        font-family: handWritten,sans-serif;
+        white-space: nowrap;
     }
 }
 
