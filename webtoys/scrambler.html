@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Scrambler</title>
+    <title>Joshua Burt | Word Scrambler</title>
     <link rel="stylesheet" href="../stylesheet.css">
     <link rel="shortcut icon" type="image/x-icon" href="../imgs/favicon.ico"/>
     <script src="scrambler/scrambler.js"></script>
@@ -19,10 +19,6 @@
             background-color: #a5ece9;
         }
 
-        table, th, td {
-            border: 1px solid black;
-        }
-
         .delimiterDisplay {
             text-align: left;
             font-size: 24px;
@@ -30,15 +26,16 @@
         }
     </style>
 </head>
-<body class="center">
+<body>
     <div id="topText">
         <a href="dir.html"><button class="button-main-menu">Back</button></a>
-        <h2>Word Scrambling tool that preserves positions of spaces and hyphens</h2>
-        <h4>Or you can specify the characters below</h4>
+
+        <h2>Word Scramble Maker</h2>
+        <h4>Preserves the positions of spaces</h4>
     </div>
 
-    <div id="table">
-        <table>
+    <div id="table" class="horizontal-center">
+        <table class="horizontal-center">
             <tr>
                 <th><label for="input">Input:</label></th>
                 <th><label for="output">Output:</label></th>
@@ -47,12 +44,12 @@
                 <td style="padding-right: 5px;"><textarea id="input" style="width:300px; height:200px"></textarea></td>
                 <td style="padding-left: 5px"><textarea id="output" style="width:300px; height:200px"></textarea></td>
             </tr>
-            <tr>
-                <td colspan="2">
-                    <label for="delimiter" style="font-size:12px;">Characters to preserve position (Leave empty for spaces and hyphens)</label>
-                    <br><textarea id="delimiter"></textarea>
-                </td>
-            </tr>
+<!--            <tr>-->
+<!--                <td colspan="2">-->
+<!--                    <label for="delimiter" style="font-size:12px;">Characters to preserve position (Leave empty for spaces and hyphens)</label>-->
+<!--                    <br><textarea id="delimiter"></textarea>-->
+<!--                </td>-->
+<!--            </tr>-->
             <tr>
                 <td colspan="2"><button id="submit" class="button" onclick="scramble()">Scramble</button></td>
             </tr>

@@ -144,6 +144,12 @@ html {
     transform: translateY(-50%);
 }
 
+.horizontal-center {
+    width: 50%;
+    left:50%;
+    margin: auto;
+}
+
 .center {
     margin: 0;
     position: absolute;

@@ -1,47 +1,22 @@
-let iterations = 100;
+let iterations = 10;
 let defaultDelimiter = " ";
 
 function getInputtedValues() {
 	let inputBox = document.getElementById("input");
 	let inputString = inputBox.value;
 
-	let delimiterBox = document.getElementById("delimiter");
-	let delimiter = delimiterBox.value;
+	// let delimiterBox = document.getElementById("delimiter");
+	// let delimiter = delimiterBox.value;
 
-	return stringToArray(inputString, delimiter);
+	return stringToArray(inputString, defaultDelimiter);
 }
 
 function stringToArray(string, delimiter) {
-	if(delimiter !== "") {
+	if(delimiter === "" || delimiter.length === 0) {
 		delimiter = defaultDelimiter;
 	}
 
-	let inputArray = [];
-	for(let i = 0; i < string.length; i++) {
-		let wordArray = [];
-		let index = 0;
-		while(!containsDelimiter(string[i], delimiter)) {
-			wordArray[index] = string[i];
-			index++;
-			i++;
-		}
-		wordArray[wordArray.length] = string[i];
-		inputArray[inputArray.length - 1] = [wordArray];
-	}
-
-	return inputArray;
-}
-
-function containsDelimiter(src, delimiter) {
-	let contains = false;
-	for(let i = 0; i < src.length; i++) {
-		for(let o = 0; o < delimiter.length; o++) {
-			if(src[i] === delimiter[o]) {
-				contains = true;
-			}
-		}
-	}
-	return contains;
+	return string.split(delimiter);
 }
 
 function scramble() {
