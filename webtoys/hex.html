@@ -30,7 +30,7 @@
                     cycle = false;
                 } else {
                     cycle = true;
-                    loop = setInterval(colourCycle, slider.value);
+                    loop = setInterval(colourCycle, 250/slider.value);
                 }
             });
 
@@ -38,9 +38,11 @@
             $("#range").on("change", function() {
                 let v = parseInt($("#range").val());
 
+                console.log(v);
+
                 if(cycle) {
                     clearTimeout(loop);
-                    loop = setInterval(colourCycle, v);
+                    loop = setInterval(colourCycle, (300/v));
                 }
             });
 
@@ -113,7 +115,7 @@
 
     <div id="page">
         <div id="nav">
-            <a href="../index.html">Main Page</a>
+            <a href="dir.html"><button class="button-main-menu">Back</button></a>
         </div>
         <div id="main" class="center">
             <div id="display" style="color: white; font-family: Impact,sans-serif" class="unselectable outline">
@@ -138,7 +140,7 @@
                 <button id="colour">Colour Loop</button>
                 <button id="reset">Reset</button>
                 <p style="color: white; font-family: Impact,sans-serif; font-size: 24px" class="unselectable outline">
-                    Faster<label for="range"></label><input type="range" min="15" max="300" value="150" class="slider" id="range">Slower
+                    Slower<label for="range"></label><input type="range" min="1" max="300" value="150" class="slider" id="range">Faster
                 </p>
             </div>
         </div>

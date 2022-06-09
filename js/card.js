@@ -1,3 +1,11 @@
+// if(screen.availWidth <= 650) {
+//     document.getElementById("card").className = "rectangle-mobile";
+//     document.getElementById("pin").width = 80;
+//     document.getElementById("pin").height = 80;
+//
+//
+// }
+
 function fall() {
     let pin = document.getElementById("pin");
 
@@ -14,21 +22,11 @@ function cardFall() {
     card.style.zIndex = String(10);
     let ySpeed = 2;
 
-    let timer = setInterval(function() {
-        let yPos = parseInt(card.style.top.slice(0,-2));
-        if(isNaN(yPos)) {
-            yPos = 500;
-        }
-
-        if(!$(card).visible(true)) {
-            card.style.display = "none";
-            clearInterval(timer);
-        } else {
-            ySpeed += 0.5;
-            let newPos = yPos + ySpeed;
-            card.style.top = newPos + "px";
-        }
-    }, 20);
+    $("#card").finish().animate({
+        top: "+=1000",
+    }, 1250, function() {
+        card.style.display = "none";
+    });
 
 }
 
@@ -40,5 +38,6 @@ function pickImage() {
     x.setAttribute("src", "imgs/undercard/" + num + ".png");
     x.setAttribute("width", "125");
     x.setAttribute("height", "125");
+    x.setAttribute("class","behind-torn-hole")
     document.getElementById("image").appendChild(x);
 }

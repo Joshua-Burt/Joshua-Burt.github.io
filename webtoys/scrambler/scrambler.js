@@ -1,4 +1,3 @@
-
 let iterations = 100;
 let defaultDelimiter = " ";
 
