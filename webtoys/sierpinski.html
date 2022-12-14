@@ -6,12 +6,12 @@
 </head>
 <body>
 
-<canvas id="canvas" width="500" height="500"></canvas>
+<canvas id="canvas" width="1300" height="500"></canvas>
 
 <script>
     let canvas = document.querySelector("#canvas");
     let ctx = canvas.getContext("2d");
-    let numberOfDots = 2000;
+    let numberOfDots = 2000000;
 
     let points = [];
 
@@ -64,7 +64,7 @@
 
 
     function drawPoint(x,y) {
-        ctx.fillRect(x-1,y-1,3,3);
+        ctx.fillRect(x,y,1,1);
     }
 </script>
 </body>
