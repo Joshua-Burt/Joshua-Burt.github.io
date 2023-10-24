@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Decision Maker</title>
+    <style>
+        .left {
+            width:50%;
+            height: 100%;
+            position:absolute;
+        }
+        .right {
+            width:50%;
+            height: 100%;
+            position:absolute;
+            left:50%;
+        }
+        .center {
+            width:50%;
+            margin:auto;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h2 class="center" id="text"></h2>
+    <div class="left" id="left" onclick="leftPressed()"></div>
+    <div class="right" id="right" onclick="rightPressed()"></div>
+    <script>
+        let divLeft = document.getElementById("left");
+        let divRight = document.getElementById("right");
+        let text = document.getElementById("text");
+
+        let names = ["artic", "army", "atmosphere", "ballerina", "black", "bolt", "calcite"]
+        let colours = ["#92e7f8", "#b7bb94", "#d9dadc", "#e8cdd9", "#262626", "#017cfc", "#a8cbf5"]
+
+        let remainingColours = colours.slice();
+
+        let leftColour = getNewColour();
+        let rightColour = getNewColour();
+
+        divLeft.style.backgroundColor = leftColour;
+        divRight.style.backgroundColor = rightColour;
+
+        function leftPressed() {
+            console.log("left")
+
+            console.log(colours)
+
+            if(remainingColours.length === 2) {
+                divRight.style.backgroundColor = leftColour;
+                text.innerText = names[colours.indexOf(leftColour)]
+                return;
+            }
+            rightColour = getNewColour();
+            divRight.style.backgroundColor = rightColour;
+        }
+
+        function rightPressed() {
+            console.log("right")
+
+            if(remainingColours.length === 2) {
+                divLeft.style.backgroundColor = rightColour;
+                text.innerText = names[colours.indexOf(rightColour)]
+                return;
+            }
+
+            leftColour = getNewColour();
+            divLeft.style.backgroundColor = leftColour;
+        }
+
+
+        function getNewColour() {
+            let index = Math.floor(Math.random() * remainingColours.length)
+            let colour = remainingColours[index];
+            remainingColours.splice(index, 1);
+
+            return colour;
+        }
+
+
+
+    </script>
+</body>
+</html>
