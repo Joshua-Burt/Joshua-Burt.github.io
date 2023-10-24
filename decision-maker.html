@@ -31,25 +31,27 @@
         let divRight = document.getElementById("right");
         let text = document.getElementById("text");
 
-        let names = ["artic", "army", "atmosphere", "ballerina", "black", "bolt", "calcite"]
-        let colours = ["#92e7f8", "#b7bb94", "#d9dadc", "#e8cdd9", "#262626", "#017cfc", "#a8cbf5"]
+        let names = ["artic", "army", "atmosphere", "ballerina", "black", "bolt", "calcite", "bone", "dark cherry", "dark iris", "dusty olive", "elephant", "hot blush", "jade stone", "juice", "lavender", "linen", "moon jelly", "moonlight", "moss", "navy", "neon purple", "neon watermelon", "sherbert", "zing", "slate grey", "strawberry wine", "sunflower", "taffy", "varsity", "wheat", "white"]
+        let colours = ["#92e7f8", "#b7bb94", "#d9dadc", "#e8cdd9", "#262626", "#017cfc", "#a8cbf5", "#e9e1c9", "#5b272e", "#4c3057", "#5f6451", "#aeafa1", "#fb666a", "#57d9ad", "#fd36bd", "#eee4f4", "#dcded0", "#7db5fd", "#cfd2d0", "#84a078", "#2e3c67", "#8f51e5", "#ef6b60", "#fec90c", "#fe8705", "#7f8583", "#df5951", "#fef104", "#f57ed5", "#f34144", "#f8c170", "#efefee"]
 
         let remainingColours = colours.slice();
 
         let leftColour = getNewColour();
         let rightColour = getNewColour();
+        let finished = false;
 
         divLeft.style.backgroundColor = leftColour;
         divRight.style.backgroundColor = rightColour;
 
         function leftPressed() {
-            console.log("left")
-
-            console.log(colours)
+            if(finished) {
+                return;
+            }
 
             if(remainingColours.length === 2) {
                 divRight.style.backgroundColor = leftColour;
                 text.innerText = names[colours.indexOf(leftColour)]
+                finished = true;
                 return;
             }
             rightColour = getNewColour();
@@ -57,11 +59,14 @@
         }
 
         function rightPressed() {
-            console.log("right")
+            if(finished) {
+                return;
+            }
 
             if(remainingColours.length === 2) {
                 divLeft.style.backgroundColor = rightColour;
                 text.innerText = names[colours.indexOf(rightColour)]
+                finished = true;
                 return;
             }
 
